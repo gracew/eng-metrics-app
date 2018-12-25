@@ -1,9 +1,28 @@
 import * as React from "react";
 
 import ReactEcharts from "echarts-for-react";
+import { connect } from 'react-redux'
+import { fetchItems } from './actions';
 
 export class CIChart extends React.Component {
 
+    /*constructor() {
+        super({})
+        this.state = {
+            "items": []
+        }
+    }*/
+
+    public componentDidMount() {
+        /*fetch('http://localhost:8080/PrimerAI/disco/score?weeks=6', { mode: "cors" })
+            .then(res => res.json())
+            .then(({ ci }) => ci.map(({ week, buildTime50 }: { week: string, buildTime50: number }) => [week, buildTime50]))
+            .then(items => this.setState({ items }))*/
+        // tslint:disable:all
+        console.log(this.props['fetchData'])
+        // tslint:disable:no-string-literal
+        this.props['fetchData']()
+    }
     public render() {
         return (
             <ReactEcharts option={this.getOption()} />
@@ -15,14 +34,8 @@ export class CIChart extends React.Component {
             series: [
                 {
                     areaStyle: { normal: {} },
-                    data: [
-                        ["2018-11-12", 1050],
-                        ["2018-11-19", 1204],
-                        ["2018-11-26", 840],
-                        ["2018-12-03", 159],
-                        ["2018-12-10", 166],
-                        ["2018-12-17", 172],
-                    ],
+                    // tslint:disable:no-string-literal
+                    data: this.props['items'],
                     name: 'build time',
                     type: 'line',
                 },
@@ -33,7 +46,6 @@ export class CIChart extends React.Component {
             },
             xAxis: [
                 {
-                    data: ['2018-11-12', '2018-11-19', '2018-11-26', '2018-12-03', '2018-12-10', '2018-12-17'],
                     type: 'time',
                 }
             ],
@@ -46,3 +58,18 @@ export class CIChart extends React.Component {
         };
     }
 }
+
+const mapStateToProps = (state: any) => {
+    return {
+        items: state.items,
+        repo: state.repo,
+    }
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        fetchData: () => dispatch(fetchItems())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CIChart)
