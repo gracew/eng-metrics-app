@@ -1,28 +1,30 @@
 import * as React from "react";
+import * as Redux from "redux";
 
 import ReactEcharts from "echarts-for-react";
 import { connect } from 'react-redux'
-import { fetchItems } from './actions';
+import { ICIData } from '../models/ci';
+import { fetchRepoData } from '../redux/actions';
 
-export class CIChart extends React.Component {
+interface ICIChartState {
+    items: ICIData[]
+    repo: string
+}
 
-    /*constructor() {
-        super({})
-        this.state = {
-            "items": []
-        }
-    }*/
+interface ICIChartProps {
+    items: ICIData[]
+    repo: string
+}
+
+class CIChart extends React.Component<ICIChartProps> {
 
     public componentDidMount() {
-        /*fetch('http://localhost:8080/PrimerAI/disco/score?weeks=6', { mode: "cors" })
-            .then(res => res.json())
-            .then(({ ci }) => ci.map(({ week, buildTime50 }: { week: string, buildTime50: number }) => [week, buildTime50]))
-            .then(items => this.setState({ items }))*/
-        // tslint:disable:all
-        console.log(this.props['fetchData'])
+        // use string literal instead of adding adding fetchRepoData to props and calling this.props.fetchRepoData
+        // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/16990
         // tslint:disable:no-string-literal
-        this.props['fetchData']()
+        this.props['fetchRepoData']()
     }
+
     public render() {
         return (
             <ReactEcharts option={this.getOption()} />
@@ -34,9 +36,7 @@ export class CIChart extends React.Component {
             series: [
                 {
                     areaStyle: { normal: {} },
-                    // tslint:disable:no-string-literal
-                    data: this.props['items'],
-                    name: 'build time',
+                    data: this.props.items.map(({ week, buildTime50 }) => [week, buildTime50]),
                     type: 'line',
                 },
             ],
@@ -59,16 +59,16 @@ export class CIChart extends React.Component {
     }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: ICIChartState) => {
     return {
         items: state.items,
         repo: state.repo,
     }
 }
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Redux.Dispatch<any>, props: ICIChartProps) => {
     return {
-        fetchData: () => dispatch(fetchItems())
+        fetchRepoData: () => dispatch(fetchRepoData(props.repo))
     }
 }
 

@@ -11,7 +11,7 @@ export function repo(state = null, action: any) {
 
 export function items(state = [], action: any) {
   switch (action.type) {
-    case 'FETCH_DATA_SUCCESS':
+    case 'FETCH_REPO_DATA_SUCCESS':
       return action.items
     default:
       return state
