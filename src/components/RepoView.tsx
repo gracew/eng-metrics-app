@@ -1,6 +1,8 @@
 import * as React from "react";
 import { IRepoData } from '../models/RepoData';
 import { CIChart } from './CIChart';
+import { IssueChart } from './IssueChart';
+import { PRChart } from './PRChart';
 import { RepoForm } from './RepoForm';
 
 interface IRepoViewState {
@@ -12,13 +14,15 @@ export class RepoView extends React.Component<{}, IRepoViewState> {
 
     constructor(props: {}) {
         super(props);
-        this.state = { data: { ci: [] } }
+        this.state = { data: { prs: [], ci: [], issues: [] } }
     }
 
     public render() {
         return (
             <div>
                 <RepoForm handler={this.handler} />
+                <PRChart repo={this.state.repo} items={this.state.data.prs} />
+                <IssueChart repo={this.state.repo} items={this.state.data.issues} />
                 <CIChart repo={this.state.repo} items={this.state.data.ci} />
             </div>
         );

@@ -26,8 +26,10 @@ export class CIChart extends React.Component<ICIChartProps> {
                 },
             ],
             title: {
-                left: 'center',
-                text: 'Median CI Time'
+                text: 'CI Time'
+            },
+            tooltip: {
+                trigger: 'axis'
             },
             xAxis: [
                 {
