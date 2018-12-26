@@ -1,29 +1,14 @@
 import * as React from "react";
 
 import ReactEcharts from "echarts-for-react";
+import { ICIData } from '../models/RepoData';
 
-interface ICIData {
-    week: string
-    buildTime50: number
-}
-
-interface ICIChartState {
+interface ICIChartProps {
+    repo?: string
     items: ICIData[]
 }
 
-export class CIChart extends React.Component<{}, ICIChartState> {
-
-    constructor(props: {}) {
-        super(props);
-        this.state = { items: [] }
-    }
-
-    public componentDidMount() {
-        fetch(`http://localhost:8080/Microsoft/typescript/score?weeks=6`, { mode: "cors" })
-            .then(res => res.json())
-            .then(({ ci }) => this.setState({ items: ci }))
-        // TODO(gracew): handle failure case...
-    }
+export class CIChart extends React.Component<ICIChartProps> {
 
     public render() {
         return (
@@ -36,7 +21,7 @@ export class CIChart extends React.Component<{}, ICIChartState> {
             series: [
                 {
                     areaStyle: { normal: {} },
-                    data: this.state.items.map(({ week, buildTime50 }) => [week, buildTime50 / 60]),
+                    data: this.props.items.map(({ week, buildTime50 }) => [week, buildTime50 / 60]),
                     type: 'line',
                 },
             ],
