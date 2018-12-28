@@ -1,14 +1,14 @@
 import * as React from "react";
 
 import ReactEcharts from "echarts-for-react";
-import { IPRData } from '../models/RepoData';
+import { IIssueData} from '../models/RepoData';
 
-interface IPRChartProps {
+interface IIssueActivityChartProps {
     repo?: string
-    items: IPRData[]
+    items: IIssueData[]
 }
 
-export class PRChart extends React.Component<IPRChartProps> {
+export class IssueActivityChart extends React.Component<IIssueActivityChartProps> {
 
     public render() {
         return (
@@ -19,7 +19,7 @@ export class PRChart extends React.Component<IPRChartProps> {
     private getOption = () => {
         return {
             legend: {
-                data:['opened', 'merged', 'rejected']
+                data: ['opened', 'closed']
             },
             series: [
                 {
@@ -31,24 +31,16 @@ export class PRChart extends React.Component<IPRChartProps> {
                     type: 'line',
                 },
                 {
-                    areaStyle: { color: '#6f42c1' },
-                    data: this.props.items.map(({ week, merged}) => [week, merged]),
-                    itemStyle: { color: '#6f42c1' },
-                    lineStyle: { color: '#6f42c1' },
-                    name: 'merged',
-                    type: 'line',
-                },
-                {
                     areaStyle: { color: '#cb2431' },
-                    data: this.props.items.map(({ week, rejected}) => [week, rejected]),
+                    data: this.props.items.map(({ week, closed }) => [week, closed]),
                     itemStyle: { color: '#cb2431' },
                     lineStyle: { color: '#cb2431' },
-                    name: 'rejected',
+                    name: 'closed',
                     type: 'line',
                 },
             ],
             title: {
-                text: 'PR Activity'
+                text: 'Issue Activity'
             },
             tooltip: {
                 trigger: 'axis'
@@ -60,7 +52,7 @@ export class PRChart extends React.Component<IPRChartProps> {
             ],
             yAxis: [
                 {
-                    name: 'Number of PRs',
+                    name: 'Number of Issues',
                     type: 'value'
                 }
             ],

@@ -5,9 +5,10 @@
   "dependencies": {
     "echarts": "^4.2.0-rc.2",
     "echarts-for-react": "^2.0.15-beta.0",
+    "percentile": "^1.2.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
-    "react-scripts-ts": "3.1.0"
+    "react-scripts-ts": "^3.1.0"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.json",
