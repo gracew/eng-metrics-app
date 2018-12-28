@@ -1,0 +1,41 @@
+@media only screen and (min-width: 961px) {
+    .echarts-for-react {
+        width: 60%;
+    }
+
+    .em-percentile-links {
+        width: 40%;
+    }
+}
+
+.RepoSelector {
+    margin: 20px 0;
+}
+
+.RepoSelector .bp3-form-group {
+    display: inline-block;
+    margin: 0 15px 0 0;
+    vertical-align: top;
+}
+
+.RepoSelector .em-repo-input {
+    width: 250px;
+}
+
+.RepoSelector .em-weeks-input {
+    width: 100px;
+}
+
+.RepoSelector .em-submit .bp3-label {
+    visibility: hidden;
+}
+
+.RepoSelector .bp3-form-helper-text {
+    /* blueprint @red3 */
+    color: #DB3737;
+}
+
+.em-chart-group div {
+    vertical-align: top;
+    display: inline-block;
+}

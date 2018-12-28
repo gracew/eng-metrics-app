@@ -1,3 +1,4 @@
+import { Button, FormGroup, InputGroup } from "@blueprintjs/core"
 import * as React from "react";
 import { IRepoData } from '../models/RepoData';
 import { CIChart } from './CIChart';
@@ -6,6 +7,7 @@ import { IssueActivityChart } from './IssueActivityChart';
 import { IssueResolutionChart } from './IssueResolutionChart';
 import { PRActivityChart } from './PRActivityChart';
 import { PRResolutionChart } from './PRResolutionChart';
+import './RepoView.css'
 
 interface IRepoViewState {
     repo: string
@@ -23,17 +25,27 @@ export class RepoView extends React.Component<{}, IRepoViewState> {
 
     public render() {
         return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <label>Repository:</label>
-                    <input type="text" name="repository" value={this.state.repo} onChange={this.handleRepoChange} />
-                    {!this.validRepo() && <span>Repo name must be fully qualified (orgName/repoName)</span>}
+            <div className="RepoView">
+                <form className="RepoSelector" onSubmit={this.handleSubmit}>
+                    <FormGroup
+                        label="Repository"
+                        className="em-repo-input"
+                        helperText={!this.validRepo() && "Repo name must be fully qualified (orgName/repoName)"}
+                    >
+                        <InputGroup type="text" value={this.state.repo} onChange={this.handleRepoChange} />
+                    </FormGroup>
 
-                    <label>Number of Weeks:</label>
-                    <input type="text" name="weeks" value={this.state.weeks} onChange={this.handleWeeksChange} />
-                    {!this.validWeeks() && <span>Value must be a positive integer</span>}
+                    <FormGroup
+                        label="Weeks"
+                        className="em-weeks-input"
+                        helperText={!this.validWeeks() && "Value must be a positive integer"}
+                    >
+                        <InputGroup type="text" value={this.state.weeks} onChange={this.handleWeeksChange} />
+                    </FormGroup>
 
-                    <input type="submit" value="Submit" />
+                    <FormGroup label="Submit" className="em-submit">
+                        <Button type="submit" intent="primary" text="Go!" />
+                    </FormGroup>
                 </form>
                 <PRActivityChart repo={this.state.repo} items={this.state.data.prs} loading={this.state.loading} />
                 <PRResolutionChart repo={this.state.repo} items={this.state.data.prs} loading={this.state.loading} />

@@ -26,11 +26,13 @@ export class CIChart extends React.Component<ICIChartProps> {
         const p90 = items.map(({ week, details }) =>
             ({ week, details: percentile(90, details!, (item: ICIDetails) => item.maxCheckDuration) }))
         return (
-            <div>
+            <div className="em-chart-group">
                 <ReactEcharts showLoading={this.props.loading} option={this.getOption(p50, p90)} />
                 <PercentileLinks
                     data={{ p50, p90 }}
                     initialPercentile="p50"
+                    titleLabel="PR & Check"
+                    valueLabel="CI Time (min)"
                     titleSelector={this.titleSelector}
                     valueSelector={this.valueSelector}
                 />

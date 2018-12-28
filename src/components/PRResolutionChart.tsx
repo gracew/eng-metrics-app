@@ -31,11 +31,13 @@ export class PRResolutionChart extends React.Component<IPRResolutionChartProps> 
             ({ week, details: percentile(90, details!, (item: IPRDetails) => item.reviews) }))
 
         return (
-            <div>
+            <div className="em-chart-group">
                 <ReactEcharts showLoading={this.props.loading} option={this.getOption(p50, p90, reviewsP50, reviewsP90)} />
                 <PercentileLinks
                     data={{ p50, p90 }}
                     initialPercentile="p50"
+                    titleLabel="PR"
+                    valueLabel="Resolution Time (hrs)"
                     titleSelector={this.titleSelector}
                     valueSelector={this.valueSelector}
                 />
