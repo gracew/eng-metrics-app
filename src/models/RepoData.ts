@@ -6,7 +6,13 @@ export interface IRepoData {
 
 export interface ICIData {
     week: string
-    buildTime50: number
+    details: ICIDetails[] | null
+}
+
+export interface ICIDetails {
+    pr: number
+    maxCheckName: string
+    maxCheckDuration: number
 }
 
 export interface IPRData {
@@ -14,10 +20,23 @@ export interface IPRData {
     merged: number
     rejected: number
     opened: number
+    details: IPRDetails[] | null
+}
+
+export interface IPRDetails {
+    pr: number
+    resolutionTime: number
+    reviews: number
 }
 
 export interface IIssueData {
     week: string
     closed: number
     opened: number
+    details: IIssueDetails[] | null
+}
+
+export interface IIssueDetails {
+    issue: number
+    resolutionTime: number
 }

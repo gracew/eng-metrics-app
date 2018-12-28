@@ -1,14 +1,14 @@
 import * as React from "react";
 
 import ReactEcharts from "echarts-for-react";
-import { IIssueData } from '../models/RepoData';
+import { IPRData } from '../models/RepoData';
 
-interface IIssueChartProps {
+interface IPRActivityChartProps {
     repo?: string
-    items: IIssueData[]
+    items: IPRData[]
 }
 
-export class IssueChart extends React.Component<IIssueChartProps> {
+export class PRActivityChart extends React.Component<IPRActivityChartProps> {
 
     public render() {
         return (
@@ -19,7 +19,7 @@ export class IssueChart extends React.Component<IIssueChartProps> {
     private getOption = () => {
         return {
             legend: {
-                data:['opened', 'closed']
+                data: ['opened', 'merged', 'rejected']
             },
             series: [
                 {
@@ -31,16 +31,24 @@ export class IssueChart extends React.Component<IIssueChartProps> {
                     type: 'line',
                 },
                 {
+                    areaStyle: { color: '#6f42c1' },
+                    data: this.props.items.map(({ week, merged }) => [week, merged]),
+                    itemStyle: { color: '#6f42c1' },
+                    lineStyle: { color: '#6f42c1' },
+                    name: 'merged',
+                    type: 'line',
+                },
+                {
                     areaStyle: { color: '#cb2431' },
-                    data: this.props.items.map(({ week, closed}) => [week, closed]),
+                    data: this.props.items.map(({ week, rejected }) => [week, rejected]),
                     itemStyle: { color: '#cb2431' },
                     lineStyle: { color: '#cb2431' },
-                    name: 'closed',
+                    name: 'rejected',
                     type: 'line',
                 },
             ],
             title: {
-                text: 'Issue Activity'
+                text: 'PR Activity'
             },
             tooltip: {
                 trigger: 'axis'
@@ -52,7 +60,7 @@ export class IssueChart extends React.Component<IIssueChartProps> {
             ],
             yAxis: [
                 {
-                    name: 'Number of Issues',
+                    name: 'Number of PRs',
                     type: 'value'
                 }
             ],
