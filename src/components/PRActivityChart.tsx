@@ -4,15 +4,16 @@ import ReactEcharts from "echarts-for-react";
 import { IPRData } from '../models/RepoData';
 
 interface IPRActivityChartProps {
-    repo?: string
+    repo: string
     items: IPRData[]
+    loading: boolean
 }
 
 export class PRActivityChart extends React.Component<IPRActivityChartProps> {
 
     public render() {
         return (
-            <ReactEcharts option={this.getOption()} />
+            <ReactEcharts showLoading={this.props.loading} option={this.getOption()} />
         );
     }
 
