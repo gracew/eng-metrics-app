@@ -4,6 +4,7 @@ import ReactEcharts from "echarts-for-react";
 import percentile from 'percentile';
 import { IPRData, IPRDetails } from '../models/RepoData';
 import { toHours } from '../utils';
+import { PercentileLinks } from './PercentileLinks';
 
 interface IPRResolutionChartProps {
     repo: string
@@ -20,9 +21,9 @@ export class PRResolutionChart extends React.Component<IPRResolutionChartProps> 
 
     public render() {
         const items = this.props.items.filter(({ details }) => details !== null)
-        const resolutionP50 = items.map(({ week, details }) =>
+        const p50 = items.map(({ week, details }) =>
             ({ week, details: percentile(50, details!, (item: IPRDetails) => item.resolutionTime) }))
-        const resolutionP90 = items.map(({ week, details }) =>
+        const p90 = items.map(({ week, details }) =>
             ({ week, details: percentile(90, details!, (item: IPRDetails) => item.resolutionTime) }))
         const reviewsP50 = items.map(({ week, details }) =>
             ({ week, details: percentile(50, details!, (item: IPRDetails) => item.reviews) }))
@@ -31,12 +32,21 @@ export class PRResolutionChart extends React.Component<IPRResolutionChartProps> 
 
         return (
             <div>
-                <ReactEcharts showLoading={this.props.loading} option={this.getReviewOption(resolutionP50, resolutionP90, reviewsP50, reviewsP90)} />
+                <ReactEcharts showLoading={this.props.loading} option={this.getOption(p50, p90, reviewsP50, reviewsP90)} />
+                <PercentileLinks
+                    data={{ p50, p90 }}
+                    initialPercentile="p50"
+                    titleSelector={this.titleSelector}
+                    valueSelector={this.valueSelector}
+                />
             </div>
         );
     }
 
-    private getReviewOption = (
+    private titleSelector = (d: IPRDetails) => `#${d.pr}: ${d.title}`
+    private valueSelector = (d: IPRDetails) => d.resolutionTime
+
+    private getOption = (
         resolutionP50: IWeekAndDetails[],
         resolutionP90: IWeekAndDetails[],
         reviewsP50: IWeekAndDetails[],

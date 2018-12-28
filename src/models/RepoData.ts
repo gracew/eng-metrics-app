@@ -13,6 +13,7 @@ export interface ICIDetails {
     pr: number
     maxCheckName: string
     maxCheckDuration: number
+    url: string
 }
 
 export interface IPRData {
@@ -25,6 +26,8 @@ export interface IPRData {
 
 export interface IPRDetails {
     pr: number
+    title: string
+    url: string
     resolutionTime: number
     reviews: number
 }
@@ -38,5 +41,7 @@ export interface IIssueData {
 
 export interface IIssueDetails {
     issue: number
+    title: string
+    url: string
     resolutionTime: number
 }
