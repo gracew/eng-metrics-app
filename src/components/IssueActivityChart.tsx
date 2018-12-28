@@ -4,15 +4,16 @@ import ReactEcharts from "echarts-for-react";
 import { IIssueData} from '../models/RepoData';
 
 interface IIssueActivityChartProps {
-    repo?: string
+    repo: string
     items: IIssueData[]
+    loading: boolean
 }
 
 export class IssueActivityChart extends React.Component<IIssueActivityChartProps> {
 
     public render() {
         return (
-            <ReactEcharts option={this.getOption()} />
+            <ReactEcharts showLoading={this.props.loading} option={this.getOption()} />
         );
     }
 

@@ -1,3 +1,4 @@
+export const tslintDataWeeks = "6"
 export const tslintData = {
     "ci": [
         {

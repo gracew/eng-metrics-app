@@ -6,8 +6,9 @@ import { IPRData, IPRDetails } from '../models/RepoData';
 import { toHours } from '../utils';
 
 interface IPRResolutionChartProps {
-    repo?: string
+    repo: string
     items: IPRData[]
+    loading: boolean
 }
 
 interface IWeekAndDetails {
@@ -30,7 +31,7 @@ export class PRResolutionChart extends React.Component<IPRResolutionChartProps> 
 
         return (
             <div>
-                <ReactEcharts option={this.getReviewOption(resolutionP50, resolutionP90, reviewsP50, reviewsP90)} />
+                <ReactEcharts showLoading={this.props.loading} option={this.getReviewOption(resolutionP50, resolutionP90, reviewsP50, reviewsP90)} />
             </div>
         );
     }

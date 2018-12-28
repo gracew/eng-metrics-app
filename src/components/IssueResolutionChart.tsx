@@ -6,8 +6,9 @@ import { IIssueData, IIssueDetails } from '../models/RepoData';
 import { toHours } from '../utils';
 
 interface IIssueResolutionChartProps {
-    repo?: string
+    repo: string
     items: IIssueData[]
+    loading: boolean
 }
 
 interface IWeekAndDetails {
@@ -25,7 +26,7 @@ export class IssueResolutionChart extends React.Component<IIssueResolutionChartP
             ({week, details: percentile(90, details!, (item: IIssueDetails) => item.resolutionTime)}))
         return (
             <div>
-                <ReactEcharts option={this.getOption(p50, p90)} />
+                <ReactEcharts showLoading={this.props.loading} option={this.getOption(p50, p90)} />
             </div>
         );
     }
