@@ -6,11 +6,15 @@ import { RepoView } from './components/RepoView';
 class App extends React.Component {
   public render() {
     return (
-      <div className="App">
+      <div>
         <header className="App-header">
-          <h1 className="App-title">Eng Metrics</h1>
+          <div className="App-title">
+            <h1>Eng Metrics</h1>
+          </div>
         </header>
-        <RepoView />
+        <div className="App">
+          <RepoView />
+        </div>
       </div>
     );
   }

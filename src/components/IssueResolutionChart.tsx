@@ -26,11 +26,13 @@ export class IssueResolutionChart extends React.Component<IIssueResolutionChartP
         const p90 = items.map(({ week, details }) =>
             ({ week, details: percentile(90, details!, (item: IIssueDetails) => item.resolutionTime) }))
         return (
-            <div>
+            <div className="em-chart-group">
                 <ReactEcharts showLoading={this.props.loading} option={this.getOption(p50, p90)} />
                 <PercentileLinks
                     data={{ p50, p90 }}
                     initialPercentile="p50"
+                    titleLabel="Issue"
+                    valueLabel="Resolution Time (hrs)"
                     titleSelector={this.titleSelector}
                     valueSelector={this.valueSelector}
                 />
