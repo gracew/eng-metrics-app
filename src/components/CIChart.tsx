@@ -4,6 +4,7 @@ import ReactEcharts from "echarts-for-react";
 import percentile from "percentile";
 import { ICIData, ICIDetails } from '../models/RepoData';
 import { toMinutes } from '../utils';
+import { PercentileLinks } from './PercentileLinks';
 
 interface ICIChartProps {
     repo: string
@@ -25,9 +26,20 @@ export class CIChart extends React.Component<ICIChartProps> {
         const p90 = items.map(({ week, details }) =>
             ({ week, details: percentile(90, details!, (item: ICIDetails) => item.maxCheckDuration) }))
         return (
-            <ReactEcharts showLoading={this.props.loading} option={this.getOption(p50, p90)} />
+            <div>
+                <ReactEcharts showLoading={this.props.loading} option={this.getOption(p50, p90)} />
+                <PercentileLinks
+                    data={{ p50, p90 }}
+                    initialPercentile="p50"
+                    titleSelector={this.titleSelector}
+                    valueSelector={this.valueSelector}
+                />
+            </div>
         );
     }
+
+    private titleSelector = (d: ICIDetails) => `#${d.pr}: ${d.maxCheckName}`
+    private valueSelector = (d: ICIDetails) => d.maxCheckDuration
 
     private getOption = (p50: IWeekAndDetails[], p90: IWeekAndDetails[]) => {
         return {
