@@ -1,0 +1,14 @@
+.em-percentile-links .bp3-html-select {
+    vertical-align: baseline;
+    margin-left: 8px;
+}
+
+.em-percentile-links .bp3-html-table {
+    display: block;
+    overflow-y: scroll;
+    height: 250px;
+}
+
+.em-percentile-links tbody.loading {
+    opacity: .5;
+}
