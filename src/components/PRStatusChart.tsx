@@ -1,3 +1,4 @@
+import { Button, ButtonGroup } from '@blueprintjs/core';
 import * as React from "react";
 
 import ReactEcharts from "echarts-for-react";
@@ -11,7 +12,7 @@ interface IPRStatusChartProps {
 
 export class PRStatusChart extends React.Component<IPRStatusChartProps> {
 
-    private chartDesc = "Merged, rejected and still open PRs, grouped by created week."
+    private chartDesc = "Merged, rejected (closed) and still open PRs, grouped by created week."
 
     public render() {
         const data = this.props.items.filter(({ details }) => details !== null)
@@ -25,6 +26,7 @@ export class PRStatusChart extends React.Component<IPRStatusChartProps> {
             <div className="em-chart-group">
                 <ReactEcharts showLoading={this.props.loading} option={this.getOption(data)} />
                 <div className="em-chart-details">
+                    <ButtonGroup className="em-dummy-button"><Button /></ButtonGroup>
                     <div className="em-chart-desc">{this.chartDesc}</div>
                 </div>
             </div>

@@ -20,6 +20,16 @@ interface IRepoViewState {
 
 export class RepoView extends React.Component<{}, IRepoViewState> {
 
+    private prResolutionChartDesc = `Percentiles for PR resolution times, grouped by the week that the PR was created. 
+    PRs are considered resolved if they have been merged or rejected (closed).`
+
+    private issueResolutionChartDesc = `Percentiles for issue resolution times, grouped by the week that the issue was 
+    created. Issues are considered resolved if they have been closed.`
+
+    private ciChartDesc=`Percentiles for CI times. Only the CI checks for the latest commit in each PR are included. 
+    They are grouped by the later of the commit push date and the PR creation date. If the PR was made from a fork, then
+    the commit date is substituted for the push date.`
+
     constructor(props: {}) {
         super(props);
         this.state = {
@@ -65,6 +75,7 @@ export class RepoView extends React.Component<{}, IRepoViewState> {
                     items={this.state.data.prs}
                     loading={this.state.loading}
                     chartTitle="PR Resolution Time"
+                    chartDesc={this.prResolutionChartDesc}
                     linkSelector={this.titleSelector}
                     linkLabel="PR"
                     valueSelector={this.valueSelector}
@@ -78,6 +89,7 @@ export class RepoView extends React.Component<{}, IRepoViewState> {
                     items={this.state.data.issues}
                     loading={this.state.loading}
                     chartTitle="Issue Resolution Time"
+                    chartDesc={this.issueResolutionChartDesc}
                     linkSelector={this.titleSelector}
                     linkLabel="Issue"
                     valueSelector={this.valueSelector}
@@ -89,6 +101,7 @@ export class RepoView extends React.Component<{}, IRepoViewState> {
                     items={this.state.data.ci}
                     loading={this.state.loading}
                     chartTitle="CI Time"
+                    chartDesc={this.ciChartDesc}
                     linkSelector={this.ciTitleSelector}
                     linkLabel="PR & Check"
                     valueSelector={this.ciValueSelector}

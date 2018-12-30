@@ -1,4 +1,4 @@
-import { HTMLSelect, HTMLTable } from '@blueprintjs/core';
+import { Button, ButtonGroup, HTMLTable } from '@blueprintjs/core';
 import * as React from "react";
 
 import ReactEcharts from "echarts-for-react";
@@ -11,6 +11,7 @@ type Details = ICIDetails | IIssueDetails | IPRDetails
 
 interface IResolutionChartProps {
     chartTitle: string
+    chartDesc: string
     items: Data[]
     loading: boolean
     linkSelector: (d: Details) => React.ReactNode
@@ -26,15 +27,22 @@ interface IWeekAndDetails {
     details: Details
 }
 
+enum Display {
+    description = "description",
+    p50 = "p50",
+    p75 = "p75",
+    p90 = "p90"
+}
+
 interface IResolutionChartState {
-    selectedPercentile: string
+    display: Display
 }
 
 export class ResolutionChart extends React.Component<IResolutionChartProps, IResolutionChartState> {
 
     constructor(props: IResolutionChartProps) {
         super(props);
-        this.state = { selectedPercentile: "p50" }
+        this.state = { display: Display.description }
     }
 
     public render() {
@@ -45,35 +53,58 @@ export class ResolutionChart extends React.Component<IResolutionChartProps, IRes
             ({ week, details: percentile(75, details!, this.props.valueSelector) }))
         const p90 = items.map(({ week, details }) =>
             ({ week, details: percentile(90, details!, this.props.valueSelector) }))
-        const data: {[p: string]: IWeekAndDetails[]} = { p50, p75, p90 }
+        const data: { [p: string]: IWeekAndDetails[] } = { p50, p75, p90 }
         return (
             <div className="em-chart-group">
                 <ReactEcharts showLoading={this.props.loading} option={this.getOption(data)} />
                 <div className="em-chart-details">
-                    <div className="em-percentile-links">
-                        View details for:
-                        <HTMLSelect onChange={this.handleChange}>
-                            {Object.keys(data).map(p => (<option key={p} value={p}>{p}</option>))}
-                        </HTMLSelect>
-                        <HTMLTable condensed={true}>
-                            <thead>
-                                <tr>
-                                    <th>Week</th>
-                                    <th>{this.props.linkLabel}</th>
-                                    <th>{this.props.valueLabel} ({this.props.unitLabel})</th>
-                                </tr>
-                            </thead>
-                            <tbody className={this.props.loading ? "loading" : undefined}>
-                                {data[this.state.selectedPercentile].map(({ week, details }) => (
-                                    <tr key={week}>
-                                        <td>{this.stripYear(week)}</td>
-                                        <td>{this.props.linkSelector(details)}</td>
-                                        <td>{this.props.unitConverter(this.props.valueSelector(details))}</td>
+                    <ButtonGroup className="em-display-selector">
+                        <Button
+                            text="Description"
+                            active={this.state.display === Display.description}
+                            onClick={this.handleDescSelection}
+                        />
+                        <Button
+                            text="p50 Details"
+                            active={this.state.display === Display.p50}
+                            onClick={this.handleP50Selection}
+                        />
+                        <Button
+                            text="p75 Details"
+                            active={this.state.display === Display.p75}
+                            onClick={this.handleP75Selection}
+                        />
+                        <Button
+                            text="p90 Details"
+                            active={this.state.display === Display.p90}
+                            onClick={this.handleP90Selection}
+                        />
+                    </ButtonGroup>
+                    {this.state.display === Display.description &&
+                        <div className="em-chart-desc">{this.props.chartDesc}</div>
+                    }
+                    {this.state.display !== Display.description &&
+                        <div className="em-percentile-links">
+                            <HTMLTable condensed={true}>
+                                <thead>
+                                    <tr>
+                                        <th>Week</th>
+                                        <th>{this.props.linkLabel}</th>
+                                        <th>{this.props.valueLabel} ({this.props.unitLabel})</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </HTMLTable>
-                    </div>
+                                </thead>
+                                <tbody className={this.props.loading ? "loading" : undefined}>
+                                    {data[Display[this.state.display]].map(({ week, details }) => (
+                                        <tr key={week}>
+                                            <td>{this.stripYear(week)}</td>
+                                            <td>{this.props.linkSelector(details)}</td>
+                                            <td>{this.props.unitConverter(this.props.valueSelector(details))}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </HTMLTable>
+                        </div>
+                    }
                 </div>
             </div>
         );
@@ -83,8 +114,10 @@ export class ResolutionChart extends React.Component<IResolutionChartProps, IRes
         return date.match(/\d{4}-\d{2}-\d{2}/) ? date.substr(5) : date;
     }
 
-    private handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => this.setState({ selectedPercentile: event.target.value })
-
+    private handleDescSelection = (_: React.MouseEvent<HTMLElement>) => this.setState({ display: Display.description })
+    private handleP50Selection = (_: React.MouseEvent<HTMLElement>) => this.setState({ display: Display.p50 })
+    private handleP75Selection = (_: React.MouseEvent<HTMLElement>) => this.setState({ display: Display.p75 })
+    private handleP90Selection = (_: React.MouseEvent<HTMLElement>) => this.setState({ display: Display.p90 })
 
     private getOption = (data: { [percentile: string]: IWeekAndDetails[] }) => {
         return {
