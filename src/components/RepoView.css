@@ -36,7 +36,17 @@
     color: #DB3737;
 }
 
-.em-chart-group div {
+.em-chart-group {
+    margin-bottom: 20px;
+}
+
+.em-chart-group .echarts-for-react, 
+.em-chart-group .em-chart-details {
     vertical-align: top;
     display: inline-block;
+}
+
+.em-chart-group .em-dummy-button {
+    visibility: hidden;
+    margin-bottom: 20px;
 }

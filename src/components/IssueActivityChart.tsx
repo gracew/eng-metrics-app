@@ -1,3 +1,4 @@
+import { Button, ButtonGroup } from '@blueprintjs/core';
 import * as React from "react";
 
 import ReactEcharts from "echarts-for-react";
@@ -17,6 +18,7 @@ export class IssueActivityChart extends React.Component<IIssueActivityChartProps
             <div className="em-chart-group">
                 <ReactEcharts showLoading={this.props.loading} option={this.getOption()} />
                 <div className="em-chart-details">
+                    <ButtonGroup className="em-dummy-button"><Button /></ButtonGroup>
                     <div className="em-chart-desc">{this.chartDesc}</div>
                 </div>
             </div>
