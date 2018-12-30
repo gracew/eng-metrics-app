@@ -11,6 +11,8 @@ interface IPRStatusChartProps {
 
 export class PRStatusChart extends React.Component<IPRStatusChartProps> {
 
+    private chartDesc = "Merged, rejected and still open PRs, grouped by created week."
+
     public render() {
         const data = this.props.items.filter(({ details }) => details !== null)
             .map(({ week, opened, details }) => {
@@ -20,7 +22,12 @@ export class PRStatusChart extends React.Component<IPRStatusChartProps> {
                 return { week, opened: remainingOpen, rejected, merged, details: null };
             })
         return (
-            <ReactEcharts showLoading={this.props.loading} option={this.getOption(data)} />
+            <div className="em-chart-group">
+                <ReactEcharts showLoading={this.props.loading} option={this.getOption(data)} />
+                <div className="em-chart-details">
+                    <div className="em-chart-desc">{this.chartDesc}</div>
+                </div>
+            </div>
         );
     }
 

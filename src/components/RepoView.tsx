@@ -1,7 +1,7 @@
 import { Button, FormGroup, InputGroup, Switch } from "@blueprintjs/core"
 import * as React from "react";
-import { IRepoData } from '../models/RepoData';
-import { CIChart } from './CIChart';
+import { ICIDetails, IIssueDetails, IPRDetails, IRepoData } from '../models/RepoData';
+import { toDays, toMinutes } from '../utils';
 import { tslintData, tslintDataWeeks } from './initialData';
 import { IssueActivityChart } from './IssueActivityChart';
 import { IssueStatusChart } from './IssueStatusChart';
@@ -61,14 +61,53 @@ export class RepoView extends React.Component<{}, IRepoViewState> {
                 </form>
                 <PRStatusChart items={this.state.data.prs} loading={this.state.loading} />
                 {this.state.showBeta && <PRActivityChart items={this.state.data.prs} loading={this.state.loading} />}
-                <ResolutionChart items={this.state.data.prs} loading={this.state.loading} title="PR" />
+                <ResolutionChart
+                    items={this.state.data.prs}
+                    loading={this.state.loading}
+                    chartTitle="PR Resolution Time"
+                    linkSelector={this.titleSelector}
+                    linkLabel="PR"
+                    valueSelector={this.valueSelector}
+                    valueLabel="Resolution Time"
+                    unitConverter={toDays}
+                    unitLabel="days"
+                />
                 <IssueStatusChart items={this.state.data.issues} loading={this.state.loading} />
                 {this.state.showBeta && <IssueActivityChart items={this.state.data.issues} loading={this.state.loading} />}
-                <ResolutionChart items={this.state.data.issues} loading={this.state.loading} title="Issue" />
-                <CIChart items={this.state.data.ci} loading={this.state.loading} />
+                <ResolutionChart
+                    items={this.state.data.issues}
+                    loading={this.state.loading}
+                    chartTitle="Issue Resolution Time"
+                    linkSelector={this.titleSelector}
+                    linkLabel="Issue"
+                    valueSelector={this.valueSelector}
+                    valueLabel="Resolution Time"
+                    unitConverter={toDays}
+                    unitLabel="days"
+                />
+                <ResolutionChart
+                    items={this.state.data.ci}
+                    loading={this.state.loading}
+                    chartTitle="CI Time"
+                    linkSelector={this.ciTitleSelector}
+                    linkLabel="PR & Check"
+                    valueSelector={this.ciValueSelector}
+                    valueLabel="CI Time"
+                    unitConverter={toMinutes}
+                    unitLabel="min"
+                />
             </div>
         );
     }
+
+    private titleSelector = (d: IIssueDetails | IPRDetails) => (<a href={d.url}>#{d.number}: {d.title}</a>)
+    private valueSelector = (d: IIssueDetails | IPRDetails) => d.resolutionTime
+    private ciTitleSelector = (d: ICIDetails) => (
+        <div>
+            <a href={d.prUrl}>#{d.pr}</a>: <a href={d.maxCheckUrl}>{d.maxCheckName}</a>
+        </div>
+    )
+    private ciValueSelector = (d: ICIDetails) => d.maxCheckDuration
 
     private validRepo = () => this.state.repo.includes("/")
     private validWeeks = () => {

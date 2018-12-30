@@ -11,6 +11,8 @@ interface IIssueStatusChartProps {
 
 export class IssueStatusChart extends React.Component<IIssueStatusChartProps> {
 
+    private chartDesc = "Closed and still open issues, grouped by created week."
+
     public render() {
         const data = this.props.items.filter(({ details }) => details !== null)
             .map(({ week, opened, details }) => {
@@ -19,7 +21,12 @@ export class IssueStatusChart extends React.Component<IIssueStatusChartProps> {
                 return { week, opened: remainingOpen, closed, details: null };
             })
         return (
-            <ReactEcharts showLoading={this.props.loading} option={this.getOption(data)} />
+            <div className="em-chart-group">
+                <ReactEcharts showLoading={this.props.loading} option={this.getOption(data)} />
+                <div className="em-chart-details">
+                    <div className="em-chart-desc">{this.chartDesc}</div>
+                </div>
+            </div>
         );
     }
 
@@ -29,7 +36,7 @@ export class IssueStatusChart extends React.Component<IIssueStatusChartProps> {
             series: [
                 {
                     areaStyle: { color: red },
-                    data: data.map(({ week, closed}) => [week, closed]),
+                    data: data.map(({ week, closed }) => [week, closed]),
                     itemStyle: { color: red },
                     lineStyle: { color: red },
                     name: 'closed',

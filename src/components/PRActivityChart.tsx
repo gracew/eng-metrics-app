@@ -11,9 +11,16 @@ interface IPRActivityChartProps {
 
 export class PRActivityChart extends React.Component<IPRActivityChartProps> {
 
+    private chartDesc = "Opened, merged, and rejected PRs, grouped by week that the activity occurred."
+
     public render() {
         return (
-            <ReactEcharts showLoading={this.props.loading} option={this.getOption()} />
+            <div className="em-chart-group">
+                <ReactEcharts showLoading={this.props.loading} option={this.getOption()} />
+                <div className="em-chart-details">
+                    <div className="em-chart-desc">{this.chartDesc}</div>
+                </div>
+            </div>
         );
     }
 
