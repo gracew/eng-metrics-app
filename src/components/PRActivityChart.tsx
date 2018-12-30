@@ -2,9 +2,9 @@ import * as React from "react";
 
 import ReactEcharts from "echarts-for-react";
 import { IPRData } from '../models/RepoData';
+import { green, purple, red } from '../utils';
 
 interface IPRActivityChartProps {
-    repo: string
     items: IPRData[]
     loading: boolean
 }
@@ -19,31 +19,29 @@ export class PRActivityChart extends React.Component<IPRActivityChartProps> {
 
     private getOption = () => {
         return {
-            legend: {
-                data: ['opened', 'merged', 'rejected']
-            },
+            legend: {},
             series: [
                 {
-                    areaStyle: { color: '#28a745' },
+                    areaStyle: { color: green },
                     data: this.props.items.map(({ week, opened }) => [week, opened]),
-                    itemStyle: { color: '#28a745' },
-                    lineStyle: { color: '#28a745' },
+                    itemStyle: { color: green },
+                    lineStyle: { color: green },
                     name: 'opened',
                     type: 'line',
                 },
                 {
-                    areaStyle: { color: '#6f42c1' },
+                    areaStyle: { color: purple },
                     data: this.props.items.map(({ week, merged }) => [week, merged]),
-                    itemStyle: { color: '#6f42c1' },
-                    lineStyle: { color: '#6f42c1' },
+                    itemStyle: { color: purple },
+                    lineStyle: { color: purple },
                     name: 'merged',
                     type: 'line',
                 },
                 {
-                    areaStyle: { color: '#cb2431' },
+                    areaStyle: { color: red },
                     data: this.props.items.map(({ week, rejected }) => [week, rejected]),
-                    itemStyle: { color: '#cb2431' },
-                    lineStyle: { color: '#cb2431' },
+                    itemStyle: { color: red },
+                    lineStyle: { color: red },
                     name: 'rejected',
                     type: 'line',
                 },

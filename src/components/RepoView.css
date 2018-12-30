@@ -12,7 +12,7 @@
     margin: 20px 0;
 }
 
-.RepoSelector .bp3-form-group {
+.RepoSelector .bp3-form-group, .bp3-control {
     display: inline-block;
     margin: 0 15px 0 0;
     vertical-align: top;
@@ -26,7 +26,8 @@
     width: 100px;
 }
 
-.RepoSelector .em-submit .bp3-label {
+.RepoSelector .em-submit .bp3-label, 
+.RepoSelector .em-show-beta .bp3-label {
     visibility: hidden;
 }
 

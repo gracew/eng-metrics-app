@@ -4,7 +4,6 @@ import ReactEcharts from "echarts-for-react";
 import { IIssueData} from '../models/RepoData';
 
 interface IIssueActivityChartProps {
-    repo: string
     items: IIssueData[]
     loading: boolean
 }
@@ -19,9 +18,7 @@ export class IssueActivityChart extends React.Component<IIssueActivityChartProps
 
     private getOption = () => {
         return {
-            legend: {
-                data: ['opened', 'closed']
-            },
+            legend: {},
             series: [
                 {
                     areaStyle: { color: '#28a745' },

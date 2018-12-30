@@ -1,18 +1,20 @@
-import { Button, FormGroup, InputGroup } from "@blueprintjs/core"
+import { Button, FormGroup, InputGroup, Switch } from "@blueprintjs/core"
 import * as React from "react";
 import { IRepoData } from '../models/RepoData';
 import { CIChart } from './CIChart';
 import { tslintData, tslintDataWeeks } from './initialData';
 import { IssueActivityChart } from './IssueActivityChart';
-import { IssueResolutionChart } from './IssueResolutionChart';
+import { IssueStatusChart } from './IssueStatusChart';
 import { PRActivityChart } from './PRActivityChart';
-import { PRResolutionChart } from './PRResolutionChart';
+import { PRStatusChart } from './PRStatusChart';
 import './RepoView.css'
+import { ResolutionChart } from './ResolutionChart';
 
 interface IRepoViewState {
     repo: string
     weeks: string
     data: IRepoData
+    showBeta: boolean
     loading: boolean
 }
 
@@ -20,7 +22,13 @@ export class RepoView extends React.Component<{}, IRepoViewState> {
 
     constructor(props: {}) {
         super(props);
-        this.state = { repo: "palantir/tslint", weeks: tslintDataWeeks, data: tslintData, loading: false }
+        this.state = {
+            data: tslintData,
+            loading: false,
+            repo: "palantir/tslint",
+            showBeta: false,
+            weeks: tslintDataWeeks,
+        }
     }
 
     public render() {
@@ -46,12 +54,18 @@ export class RepoView extends React.Component<{}, IRepoViewState> {
                     <FormGroup label="Submit" className="em-submit">
                         <Button type="submit" intent="primary" text="Go!" />
                     </FormGroup>
+
+                    <FormGroup label="Beta" className="em-show-beta">
+                        <Switch label="Show beta charts" onChange={this.handleBetaChange} />
+                    </FormGroup>
                 </form>
-                <PRActivityChart repo={this.state.repo} items={this.state.data.prs} loading={this.state.loading} />
-                <PRResolutionChart repo={this.state.repo} items={this.state.data.prs} loading={this.state.loading} />
-                <IssueActivityChart repo={this.state.repo} items={this.state.data.issues} loading={this.state.loading} />
-                <IssueResolutionChart repo={this.state.repo} items={this.state.data.issues} loading={this.state.loading} />
-                <CIChart repo={this.state.repo} items={this.state.data.ci} loading={this.state.loading} />
+                <PRStatusChart items={this.state.data.prs} loading={this.state.loading} />
+                {this.state.showBeta && <PRActivityChart items={this.state.data.prs} loading={this.state.loading} />}
+                <ResolutionChart items={this.state.data.prs} loading={this.state.loading} title="PR" />
+                <IssueStatusChart items={this.state.data.issues} loading={this.state.loading} />
+                {this.state.showBeta && <IssueActivityChart items={this.state.data.issues} loading={this.state.loading} />}
+                <ResolutionChart items={this.state.data.issues} loading={this.state.loading} title="Issue" />
+                <CIChart items={this.state.data.ci} loading={this.state.loading} />
             </div>
         );
     }
@@ -62,14 +76,18 @@ export class RepoView extends React.Component<{}, IRepoViewState> {
         return !isNaN(value) && value > 0;
     }
 
-    private handleRepoChange = (event: React.ChangeEvent<HTMLInputElement>) => this.setState({ repo: event.target.value })
-    private handleWeeksChange = (event: React.ChangeEvent<HTMLInputElement>) => this.setState({ weeks: event.target.value })
+    private handleRepoChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+        this.setState({ repo: event.target.value })
+    private handleWeeksChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+        this.setState({ weeks: event.target.value })
+    private handleBetaChange = (event: React.FormEvent<HTMLElement>) =>
+        this.setState({ showBeta: (event.target as HTMLInputElement).checked })
 
     private handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (this.validRepo() && this.validWeeks()) {
             this.setState({ loading: true })
-            fetch(`http://localhost:8080/${this.state.repo}/score?weeks=${this.state.weeks}`, { mode: "cors" })
+            fetch(`http://localhost:8080/repos/${this.state.repo}?weeks=${this.state.weeks}`, { mode: "cors" })
                 .then(res => res.json())
                 .then(data => this.setState({ data, loading: false }))
             // TODO(gracew): handle failure case...
