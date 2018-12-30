@@ -11,9 +11,10 @@ export interface ICIData {
 
 export interface ICIDetails {
     pr: number
+    prUrl: string
     maxCheckName: string
     maxCheckDuration: number
-    url: string
+    maxCheckUrl: string
 }
 
 export interface IPRData {
@@ -24,10 +25,17 @@ export interface IPRData {
     details: IPRDetails[] | null
 }
 
+export enum PRState {
+    OPEN = "OPEN",
+    CLOSED = "CLOSED",
+    MERGED = "MERGED"
+}
+
 export interface IPRDetails {
-    pr: number
+    number: number
     title: string
     url: string
+    state: string
     resolutionTime: number
     reviews: number
 }
@@ -40,8 +48,9 @@ export interface IIssueData {
 }
 
 export interface IIssueDetails {
-    issue: number
+    number: number
     title: string
     url: string
+    state: string
     resolutionTime: number
 }

@@ -14,8 +14,10 @@ interface IPercentileLinksProps {
     initialPercentile: string
     titleLabel: string
     valueLabel: string
-    titleSelector: (d: Details) => string
+    titleSelector: (d: Details) => React.ReactNode
     valueSelector: (d: Details) => number
+    unitLabel: string
+    unitConverter: (n: number) => string
 }
 
 interface IPercentileLinksState {
@@ -40,15 +42,15 @@ export class PercentileLinks extends React.Component<IPercentileLinksProps, IPer
                         <tr>
                             <th>Week</th>
                             <th>{this.props.titleLabel}</th>
-                            <th>{this.props.valueLabel}</th>
+                            <th>{this.props.valueLabel} ({this.props.unitLabel})</th>
                         </tr>
                     </thead>
                     <tbody>
                         {this.props.data[this.state.selectedPercentile].map(({ week, details }) => (
                             <tr key={week}>
                                 <td>{this.stripYear(week)}</td>
-                                <td><a href={details.url}>{this.props.titleSelector(details)}</a></td>
-                                <td>{this.props.valueSelector(details)}</td>
+                                <td>{this.props.titleSelector(details)}</td>
+                                <td>{this.props.unitConverter(this.props.valueSelector(details))}</td>
                             </tr>
                         ))}
                     </tbody>
