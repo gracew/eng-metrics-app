@@ -1,5 +1,7 @@
 import { Button, FormGroup, InputGroup, Switch } from "@blueprintjs/core"
+import * as queryString from 'query-string';
 import * as React from "react";
+import * as uuid from "uuid";
 import { ICIDetails, IIssueDetails, IPRDetails, IRepoData } from '../models/RepoData';
 import { toDays, toMinutes } from '../utils';
 import { tslintData, tslintDataWeeks } from './initialData';
@@ -10,15 +12,30 @@ import { PRStatusChart } from './PRStatusChart';
 import './RepoView.css'
 import { ResolutionChart } from './ResolutionChart';
 
+interface ILocationParams {
+    search: string
+}
+
+export interface IRepoViewProps {
+    location: ILocationParams
+}
+
 interface IRepoViewState {
     repo: string
     weeks: string
     data: IRepoData
     showBeta: boolean
+    token: string | null,
     loading: boolean
 }
 
-export class RepoView extends React.Component<{}, IRepoViewState> {
+function getLoginUrl() {
+    const state = uuid.v4()
+    localStorage.setItem("oauthState", state);
+    return `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&scope=repo&state=${state}`
+}
+
+export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
 
     private prResolutionChartDesc = `Percentiles for PR resolution times, grouped by the week that the PR was created. 
     PRs are considered resolved if they have been merged or rejected (closed).`
@@ -26,18 +43,40 @@ export class RepoView extends React.Component<{}, IRepoViewState> {
     private issueResolutionChartDesc = `Percentiles for issue resolution times, grouped by the week that the issue was 
     created. Issues are considered resolved if they have been closed.`
 
-    private ciChartDesc=`Percentiles for CI times. Only the CI checks for the latest commit in each PR are included. 
+    private ciChartDesc = `Percentiles for CI times. Only the CI checks for the latest commit in each PR are included. 
     They are grouped by the later of the commit push date and the PR creation date. If the PR was made from a fork, then
     the commit date is substituted for the push date.`
 
-    constructor(props: {}) {
+    constructor(props: IRepoViewProps) {
         super(props);
         this.state = {
             data: tslintData,
             loading: false,
             repo: "palantir/tslint",
             showBeta: false,
+            token: localStorage.getItem("accessToken"),
             weeks: tslintDataWeeks,
+        }
+    }
+
+    public componentWillMount() {
+        if (this.props.location.search) {
+            const queryValues = queryString.parse(this.props.location.search);
+            const expectedState = localStorage.getItem("oauthState")
+            if (queryValues.state !== expectedState) {
+                // TODO(gracew): handle this better
+                throw Error("unexpected oauth state")
+            }
+            fetch(`http://localhost:8080/login?state=${queryValues.state}&code=${queryValues.code}`, {
+                mode: "cors",
+            })
+                .then(res => res.json())
+                // TODO(gracew): make the local storage keys into constants
+                .then(({ access_token }) => {
+                    localStorage.setItem("accessToken", access_token)
+                    this.setState({ token: access_token })
+                });
+            // TODO(gracew): handle failure case
         }
     }
 
@@ -50,7 +89,12 @@ export class RepoView extends React.Component<{}, IRepoViewState> {
                         className="em-repo-input"
                         helperText={!this.validRepo() && "Repo name must be fully qualified (orgName/repoName)"}
                     >
-                        <InputGroup type="text" value={this.state.repo} onChange={this.handleRepoChange} />
+                        <InputGroup
+                            type="text"
+                            value={this.state.repo}
+                            onChange={this.handleRepoChange}
+                            disabled={this.state.token === null}
+                        />
                     </FormGroup>
 
                     <FormGroup
@@ -58,16 +102,27 @@ export class RepoView extends React.Component<{}, IRepoViewState> {
                         className="em-weeks-input"
                         helperText={!this.validWeeks() && "Value must be a positive integer"}
                     >
-                        <InputGroup type="text" value={this.state.weeks} onChange={this.handleWeeksChange} />
+                        <InputGroup
+                            type="text"
+                            value={this.state.weeks}
+                            onChange={this.handleWeeksChange}
+                            disabled={this.state.token === null}
+                        />
                     </FormGroup>
 
                     <FormGroup label="Submit" className="em-submit">
-                        <Button type="submit" intent="primary" text="Go!" />
+                        <Button type="submit" intent="primary" text="Go!" disabled={this.state.token === null} />
                     </FormGroup>
 
                     <FormGroup label="Beta" className="em-show-beta">
                         <Switch label="Show beta charts" onChange={this.handleBetaChange} />
                     </FormGroup>
+
+                    {this.state.token === null && <div>
+                        Want to see data for private repos you have access to?
+                        <a href={getLoginUrl()}>Login with Github</a>
+                    </div>}
+
                 </form>
                 <PRStatusChart items={this.state.data.prs} loading={this.state.loading} />
                 {this.state.showBeta && <PRActivityChart items={this.state.data.prs} loading={this.state.loading} />}
@@ -139,7 +194,13 @@ export class RepoView extends React.Component<{}, IRepoViewState> {
         event.preventDefault();
         if (this.validRepo() && this.validWeeks()) {
             this.setState({ loading: true })
-            fetch(`http://localhost:8080/repos/${this.state.repo}?weeks=${this.state.weeks}`, { mode: "cors" })
+            // TODO(gracew): replace this with env var
+            fetch(`http://localhost:8080/repos/${this.state.repo}?weeks=${this.state.weeks}`, {
+                headers: {
+                    Authorization: `token ${this.state.token}`,
+                },
+                mode: "cors"
+            })
                 .then(res => res.json())
                 .then(data => this.setState({ data, loading: false }))
             // TODO(gracew): handle failure case...

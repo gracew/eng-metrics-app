@@ -7,9 +7,12 @@
     "echarts": "^4.2.0-rc.2",
     "echarts-for-react": "^2.0.15-beta.0",
     "percentile": "^1.2.1",
+    "query-string": "^6.2.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
-    "react-scripts-ts": "^3.1.0"
+    "react-router-dom": "^4.3.1",
+    "react-scripts-ts": "^3.1.0",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.json",
@@ -21,8 +24,11 @@
   "devDependencies": {
     "@types/jest": "^23.3.10",
     "@types/node": "^10.12.18",
+    "@types/query-string": "^6.1.1",
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
+    "@types/react-router-dom": "^4.3.1",
+    "@types/uuid": "^3.4.4",
     "tslint": "^5.12.0",
     "typescript": "^3.2.2"
   }

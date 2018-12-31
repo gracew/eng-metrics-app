@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 
 import { RepoView } from './components/RepoView';
@@ -13,7 +14,11 @@ class App extends React.Component {
           </div>
         </header>
         <div className="App">
-          <RepoView />
+          <Router>
+            <Switch>
+              <Route path="/" component={RepoView} />
+            </Switch>
+          </Router>
         </div>
       </div>
     );
