@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, RouteComponentProps, Switch } from 'rea
 import './App.css';
 
 import { RepoView } from './components/RepoView';
+import { UserView } from './components/UserView';
 
 interface IAppState {
     token: string | null;
@@ -36,7 +37,8 @@ class App extends React.Component<{}, IAppState> {
                 <div className="App">
                     <Router>
                         <Switch>
-                            <Route path="/" render={this.renderRepoView} />
+                            <Route path="/" exact={true} render={this.renderRepoView} />
+                            <Route path="/user" exact={true} render={this.renderUserView} />
                         </Switch>
                     </Router>
                 </div>
@@ -46,6 +48,8 @@ class App extends React.Component<{}, IAppState> {
 
     private renderRepoView = (props: RouteComponentProps<any>) =>
         <RepoView {...props} token={this.state.token} updateToken={this.updateToken} />
+    private renderUserView = (props: RouteComponentProps<any>) =>
+        <UserView {...props} token={this.state.token} />
 
     private updateToken = (token: string) => this.setState({ token })
 }
