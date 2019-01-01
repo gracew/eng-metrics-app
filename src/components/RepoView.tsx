@@ -68,7 +68,7 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
                 // TODO(gracew): handle this better
                 throw Error("unexpected oauth state")
             }
-            fetch(`http://localhost:8080/login?state=${queryValues.state}&code=${queryValues.code}`, {
+            fetch(`${process.env.REACT_APP_SERVER_URL}/login?state=${queryValues.state}&code=${queryValues.code}`, {
                 mode: "cors",
             })
                 .then(res => res.json())
@@ -194,8 +194,7 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
         event.preventDefault();
         if (this.validRepo() && this.validWeeks()) {
             this.setState({ loading: true })
-            // TODO(gracew): replace this with env var
-            fetch(`http://localhost:8080/repos/${this.state.repo}?weeks=${this.state.weeks}`, {
+            fetch(`${process.env.REACT_APP_SERVER_URL}/repos/${this.state.repo}?weeks=${this.state.weeks}`, {
                 headers: {
                     Authorization: `token ${this.props.token}`,
                 },
