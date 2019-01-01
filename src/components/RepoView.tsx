@@ -18,6 +18,9 @@ interface ILocationParams {
 
 export interface IRepoViewProps {
     location: ILocationParams
+    // this is really gross... maybe it's time for redux
+    updateToken: (token: string) => void
+    token: string | null,
 }
 
 interface IRepoViewState {
@@ -25,7 +28,6 @@ interface IRepoViewState {
     weeks: string
     data: IRepoData
     showBeta: boolean
-    token: string | null,
     loading: boolean
 }
 
@@ -54,7 +56,6 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
             loading: false,
             repo: "palantir/tslint",
             showBeta: false,
-            token: localStorage.getItem("accessToken"),
             weeks: tslintDataWeeks,
         }
     }
@@ -74,7 +75,7 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
                 // TODO(gracew): make the local storage keys into constants
                 .then(({ access_token }) => {
                     localStorage.setItem("accessToken", access_token)
-                    this.setState({ token: access_token })
+                    this.props.updateToken(access_token)
                 });
             // TODO(gracew): handle failure case
         }
@@ -82,8 +83,8 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
 
     public render() {
         return (
-            <div className="RepoView">
-                <form className="RepoSelector" onSubmit={this.handleSubmit}>
+            <div>
+                <form className="em-repo-form" onSubmit={this.handleSubmit}>
                     <FormGroup
                         label="Repository"
                         className="em-repo-input"
@@ -93,7 +94,7 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
                             type="text"
                             value={this.state.repo}
                             onChange={this.handleRepoChange}
-                            disabled={this.state.token === null}
+                            disabled={this.props.token === null}
                         />
                     </FormGroup>
 
@@ -106,21 +107,20 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
                             type="text"
                             value={this.state.weeks}
                             onChange={this.handleWeeksChange}
-                            disabled={this.state.token === null}
+                            disabled={this.props.token === null}
                         />
                     </FormGroup>
 
                     <FormGroup label="Submit" className="em-submit">
-                        <Button type="submit" intent="primary" text="Go!" disabled={this.state.token === null} />
+                        <Button type="submit" intent="primary" text="Go!" disabled={this.props.token === null} />
                     </FormGroup>
 
                     <FormGroup label="Beta" className="em-show-beta">
                         <Switch label="Show beta charts" onChange={this.handleBetaChange} />
                     </FormGroup>
 
-                    {this.state.token === null && <div>
-                        Want to see data for private repos you have access to?
-                        <a href={getLoginUrl()}>Login with Github</a>
+                    {this.props.token === null && <div className="em-login-text">
+                        Want to see data for another repository? <a href={getLoginUrl()}>Login with Github</a>
                     </div>}
 
                 </form>
@@ -197,7 +197,7 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
             // TODO(gracew): replace this with env var
             fetch(`http://localhost:8080/repos/${this.state.repo}?weeks=${this.state.weeks}`, {
                 headers: {
-                    Authorization: `token ${this.state.token}`,
+                    Authorization: `token ${this.props.token}`,
                 },
                 mode: "cors"
             })
