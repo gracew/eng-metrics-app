@@ -18,8 +18,8 @@ interface IResolutionChartProps {
     linkLabel: string
     valueSelector: (d: Details) => number
     valueLabel: string
-    unitConverter: (n: number) => string
-    unitLabel: string
+    unitConverter?: (n: number) => string
+    unitLabel?: string
 }
 
 interface IWeekAndDetails {
@@ -90,7 +90,7 @@ export class ResolutionChart extends React.Component<IResolutionChartProps, IRes
                                     <tr>
                                         <th>Week</th>
                                         <th>{this.props.linkLabel}</th>
-                                        <th>{this.props.valueLabel} ({this.props.unitLabel})</th>
+                                        <th>{this.getValueLabel()}</th>
                                     </tr>
                                 </thead>
                                 <tbody className={this.props.loading ? "loading" : undefined}>
@@ -98,7 +98,7 @@ export class ResolutionChart extends React.Component<IResolutionChartProps, IRes
                                         <tr key={week}>
                                             <td>{this.stripYear(week)}</td>
                                             <td>{this.props.linkSelector(details)}</td>
-                                            <td>{this.props.unitConverter(this.props.valueSelector(details))}</td>
+                                            <td>{this.getValue(details)}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -109,6 +109,13 @@ export class ResolutionChart extends React.Component<IResolutionChartProps, IRes
             </div>
         );
     }
+
+    private getValue = (d: Details) => {
+        const value = this.props.valueSelector(d);
+        return this.props.unitConverter === undefined ? value : this.props.unitConverter(value)
+    }
+    private getValueLabel = () => this.props.unitLabel === undefined
+        ? this.props.valueLabel : `${this.props.valueLabel} (${this.props.unitLabel})`
 
     private stripYear = (date: string) => {
         return date.match(/\d{4}-\d{2}-\d{2}/) ? date.substr(5) : date;
@@ -123,7 +130,7 @@ export class ResolutionChart extends React.Component<IResolutionChartProps, IRes
         return {
             legend: {},
             series: Object.keys(data).map(p => ({
-                data: data[p].map(({ week, details }) => [week, this.props.unitConverter(this.props.valueSelector(details))]),
+                data: data[p].map(({ week, details }) => [week, this.getValue(details)]),
                 name: p,
                 type: 'line',
             })),
@@ -140,7 +147,7 @@ export class ResolutionChart extends React.Component<IResolutionChartProps, IRes
             ],
             yAxis: [
                 {
-                    name: `${this.props.valueLabel} (${this.props.unitLabel})`,
+                    name: this.getValueLabel(),
                     type: 'value'
                 },
             ],

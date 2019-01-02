@@ -23,38 +23,6 @@
     }
 }
 
-.em-repo-form {
-    margin: 20px 0;
-}
-
-.em-repo-form .bp3-form-group, .bp3-control {
-    display: inline-block;
-    margin: 0 15px 0 0;
-    vertical-align: top;
-}
-
-.em-repo-form .em-repo-input {
-    width: 250px;
-}
-
-.em-repo-form .em-weeks-input {
-    width: 100px;
-}
-
-.em-repo-form .em-submit .bp3-label, 
-.em-repo-form .em-show-beta .bp3-label {
-    visibility: hidden;
-}
-
-.em-repo-form .bp3-form-helper-text {
-    /* blueprint @red3 */
-    color: #DB3737;
-}
-
-.em-repo-form .em-login-text {
-    padding: 10px 0;
-}
-
 .em-chart-group {
     margin-bottom: 20px;
 }

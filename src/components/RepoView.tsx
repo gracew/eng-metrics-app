@@ -1,9 +1,10 @@
 import { Button, FormGroup, InputGroup, Switch } from "@blueprintjs/core"
 import * as queryString from 'query-string';
 import * as React from "react";
-import * as uuid from "uuid";
+import { RouteComponentProps } from 'react-router-dom';
 import { ICIDetails, IIssueDetails, IPRDetails, IRepoData } from '../models/RepoData';
-import { toDays, toMinutes } from '../utils';
+import { getGithubLoginUrl, toDays, toMinutes } from '../utils';
+import './Form.css'
 import { tslintData, tslintDataWeeks } from './initialData';
 import { IssueActivityChart } from './IssueActivityChart';
 import { IssueStatusChart } from './IssueStatusChart';
@@ -12,12 +13,7 @@ import { PRStatusChart } from './PRStatusChart';
 import './RepoView.css'
 import { ResolutionChart } from './ResolutionChart';
 
-interface ILocationParams {
-    search: string
-}
-
-export interface IRepoViewProps {
-    location: ILocationParams
+export interface IRepoViewProps extends RouteComponentProps<any> {
     // this is really gross... maybe it's time for redux
     updateToken: (token: string) => void
     token: string | null,
@@ -31,21 +27,17 @@ interface IRepoViewState {
     loading: boolean
 }
 
-function getLoginUrl() {
-    const state = uuid.v4()
-    localStorage.setItem("oauthState", state);
-    return `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&scope=repo&state=${state}`
-}
-
 export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
 
-    private prResolutionChartDesc = `Percentiles for PR resolution times, grouped by the week that the PR was created. 
+    private prResolutionDesc = `Percentiles for PR resolution times, grouped by the week that the PR was created. 
     PRs are considered resolved if they have been merged or rejected (closed).`
 
-    private issueResolutionChartDesc = `Percentiles for issue resolution times, grouped by the week that the issue was 
+    private prReviewDesc = `Percentiles for reviews per PR, grouped by the week that the PR was created.`
+
+    private issueResolutionDesc = `Percentiles for issue resolution times, grouped by the week that the issue was 
     created. Issues are considered resolved if they have been closed.`
 
-    private ciChartDesc = `Percentiles for CI times. Only the CI checks for the latest commit in each PR are included. 
+    private ciDesc = `Percentiles for CI times. Only the CI checks for the latest commit in each PR are included. 
     They are grouped by the later of the commit push date and the PR creation date. If the PR was made from a fork, then
     the commit date is substituted for the push date.`
 
@@ -84,7 +76,7 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
     public render() {
         return (
             <div>
-                <form className="em-repo-form" onSubmit={this.handleSubmit}>
+                <form className="em-form" onSubmit={this.handleSubmit}>
                     <FormGroup
                         label="Repository"
                         className="em-repo-input"
@@ -120,7 +112,7 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
                     </FormGroup>
 
                     {this.props.token === null && <div className="em-login-text">
-                        Want to see data for another repository? <a href={getLoginUrl()}>Login with Github</a>
+                        Want to see data for another repository? <a href={getGithubLoginUrl()}>Login with Github</a>
                     </div>}
 
                 </form>
@@ -130,7 +122,7 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
                     items={this.state.data.prs}
                     loading={this.state.loading}
                     chartTitle="PR Resolution Time"
-                    chartDesc={this.prResolutionChartDesc}
+                    chartDesc={this.prResolutionDesc}
                     linkSelector={this.titleSelector}
                     linkLabel="PR"
                     valueSelector={this.valueSelector}
@@ -138,13 +130,24 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
                     unitConverter={toDays}
                     unitLabel="days"
                 />
+                <ResolutionChart
+                    items={this.state.data.prs}
+                    loading={this.state.loading}
+                    chartTitle="PR Reviews"
+                    chartDesc={this.prReviewDesc}
+                    linkSelector={this.titleSelector}
+                    linkLabel="PR"
+                    valueSelector={this.reviewSelector}
+                    valueLabel="Number of Reviews"
+                />
+
                 <IssueStatusChart items={this.state.data.issues} loading={this.state.loading} />
                 {this.state.showBeta && <IssueActivityChart items={this.state.data.issues} loading={this.state.loading} />}
                 <ResolutionChart
                     items={this.state.data.issues}
                     loading={this.state.loading}
                     chartTitle="Issue Resolution Time"
-                    chartDesc={this.issueResolutionChartDesc}
+                    chartDesc={this.issueResolutionDesc}
                     linkSelector={this.titleSelector}
                     linkLabel="Issue"
                     valueSelector={this.valueSelector}
@@ -156,7 +159,7 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
                     items={this.state.data.ci}
                     loading={this.state.loading}
                     chartTitle="CI Time"
-                    chartDesc={this.ciChartDesc}
+                    chartDesc={this.ciDesc}
                     linkSelector={this.ciTitleSelector}
                     linkLabel="PR & Check"
                     valueSelector={this.ciValueSelector}
@@ -170,6 +173,7 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
 
     private titleSelector = (d: IIssueDetails | IPRDetails) => (<a href={d.url}>#{d.number}: {d.title}</a>)
     private valueSelector = (d: IIssueDetails | IPRDetails) => d.resolutionTime
+    private reviewSelector = (d: IPRDetails) => d.reviews
     private ciTitleSelector = (d: ICIDetails) => (
         <div>
             <a href={d.prUrl}>#{d.pr}</a>: <a href={d.maxCheckUrl}>{d.maxCheckName}</a>
