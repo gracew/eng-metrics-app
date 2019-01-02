@@ -4,6 +4,10 @@ export interface IRepoData {
     issues: IIssueData[]
 }
 
+export interface IUserData {
+    prs: IPRData[]
+}
+
 export interface ICIData {
     week: string
     details: ICIDetails[] | null
