@@ -46,7 +46,9 @@ export class ResolutionChart extends React.Component<IResolutionChartProps, IRes
     }
 
     public render() {
-        const items = this.props.items.filter(({ details }) => details !== null);
+        const items = this.props.items
+            .map(({ week, details }) => ({ week, details: this.filterDetails(details) }))
+            .filter(({ details }) => details !== null && details.length > 0)
         const p50 = items.map(({ week, details }) =>
             ({ week, details: percentile(50, details!, this.props.valueSelector) }))
         const p75 = items.map(({ week, details }) =>
@@ -108,6 +110,10 @@ export class ResolutionChart extends React.Component<IResolutionChartProps, IRes
                 </div>
             </div>
         );
+    }
+
+    private filterDetails(details: Details[] | null) {
+        return details === null ? null : details.filter(d => this.props.valueSelector(d) > 0)
     }
 
     private getValue = (d: Details) => {
