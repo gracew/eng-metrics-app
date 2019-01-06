@@ -29,15 +29,18 @@ interface IRepoViewState {
 
 export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
 
-    private prResolutionDesc = `Percentiles for PR resolution times, grouped by the week that the PR was created. 
+    private prResolutionTimeDesc = `Percentiles for PR resolution times, grouped by the week that the PR was created. 
     PRs are considered resolved if they have been merged or rejected (closed).`
+
+    private prReviewTimeDesc = `Percentiles for PR review times, grouped by the week that the PR was created. Only the
+    first PR by a user other than the PR author is considered.`
 
     private prReviewDesc = `Percentiles for reviews per PR, grouped by the week that the PR was created.`
 
-    private issueResolutionDesc = `Percentiles for issue resolution times, grouped by the week that the issue was 
+    private issueResolutionTimeDesc = `Percentiles for issue resolution times, grouped by the week that the issue was 
     created. Issues are considered resolved if they have been closed.`
 
-    private ciDesc = `Percentiles for CI times. Only the CI checks for the latest commit in each PR are included. 
+    private ciTimeDesc = `Percentiles for CI times. Only the CI checks for the latest commit in each PR are included. 
     They are grouped by the later of the commit push date and the PR creation date. If the PR was made from a fork, then
     the commit date is substituted for the push date.`
 
@@ -122,11 +125,23 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
                     items={this.state.data.prs}
                     loading={this.state.loading}
                     chartTitle="PR Resolution Time"
-                    chartDesc={this.prResolutionDesc}
+                    chartDesc={this.prResolutionTimeDesc}
                     linkSelector={this.titleSelector}
                     linkLabel="PR"
-                    valueSelector={this.valueSelector}
+                    valueSelector={this.resolutionTimeSelector}
                     valueLabel="Resolution Time"
+                    unitConverter={toDays}
+                    unitLabel="days"
+                />
+                <ResolutionChart
+                    items={this.state.data.prs}
+                    loading={this.state.loading}
+                    chartTitle="PR Review Time"
+                    chartDesc={this.prReviewTimeDesc}
+                    linkSelector={this.titleSelector}
+                    linkLabel="PR"
+                    valueSelector={this.reviewTimeSelector}
+                    valueLabel="Review Time"
                     unitConverter={toDays}
                     unitLabel="days"
                 />
@@ -147,10 +162,10 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
                     items={this.state.data.issues}
                     loading={this.state.loading}
                     chartTitle="Issue Resolution Time"
-                    chartDesc={this.issueResolutionDesc}
+                    chartDesc={this.issueResolutionTimeDesc}
                     linkSelector={this.titleSelector}
                     linkLabel="Issue"
-                    valueSelector={this.valueSelector}
+                    valueSelector={this.resolutionTimeSelector}
                     valueLabel="Resolution Time"
                     unitConverter={toDays}
                     unitLabel="days"
@@ -159,7 +174,7 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
                     items={this.state.data.ci}
                     loading={this.state.loading}
                     chartTitle="CI Time"
-                    chartDesc={this.ciDesc}
+                    chartDesc={this.ciTimeDesc}
                     linkSelector={this.ciTitleSelector}
                     linkLabel="PR & Check"
                     valueSelector={this.ciValueSelector}
@@ -172,7 +187,8 @@ export class RepoView extends React.Component<IRepoViewProps, IRepoViewState> {
     }
 
     private titleSelector = (d: IIssueDetails | IPRDetails) => (<a href={d.url}>#{d.number}: {d.title}</a>)
-    private valueSelector = (d: IIssueDetails | IPRDetails) => d.resolutionTime
+    private resolutionTimeSelector = (d: IIssueDetails | IPRDetails) => d.resolutionTime
+    private reviewTimeSelector = (d: IPRDetails) => d.reviewTime
     private reviewSelector = (d: IPRDetails) => d.reviews
     private ciTitleSelector = (d: ICIDetails) => (
         <div>

@@ -1,7 +1,8 @@
-import { Alignment, AnchorButton, Button, Navbar, Position, Tooltip } from '@blueprintjs/core';
+import { Alignment, AnchorButton, Button, Navbar, Popover, Position, Tooltip } from '@blueprintjs/core';
 import * as React from "react";
 import { RouteComponentProps } from 'react-router-dom';
 import { getGithubLoginUrl } from '../utils';
+import './EmNavbar.css'
 
 interface INavbarProps extends RouteComponentProps<any> {
     token: string | null
@@ -37,7 +38,16 @@ export class EmNavbar extends React.Component<INavbarProps> {
                     </Tooltip>
                 </Navbar.Group>
                 {this.props.token !== null && <Navbar.Group align={Alignment.RIGHT}>
+                    <Popover className="mobile">
+                        <Button icon="more" minimal={true} />
+                        <AnchorButton
+                            href={`https://github.com/settings/connections/applications/${process.env.REACT_APP_CLIENT_ID}`}
+                            text="Review/revoke application"
+                            minimal={true}
+                        />
+                    </Popover>
                     <AnchorButton
+                        className="desktop"
                         href={`https://github.com/settings/connections/applications/${process.env.REACT_APP_CLIENT_ID}`}
                         text="Review/revoke application"
                         minimal={true}

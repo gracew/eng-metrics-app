@@ -41,6 +41,7 @@ export interface IPRDetails {
     url: string
     state: string
     resolutionTime: number
+    reviewTime: number
     reviews: number
 }
 

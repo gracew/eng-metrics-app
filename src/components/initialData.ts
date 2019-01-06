@@ -4,25 +4,6 @@ export const tslintData = {
         {
             "details": [
                 {
-                    "maxCheckDuration": 5462,
-                    "maxCheckName": "cla/palantir",
-                    "maxCheckUrl": "https://cla.palantir.com/",
-                    "pr": 4312,
-                    "prUrl": "https://github.com/palantir/tslint/pull/4312"
-                },
-                {
-                    "maxCheckDuration": 124,
-                    "maxCheckName": "cla/palantir",
-                    "maxCheckUrl": "https://cla.palantir.com/",
-                    "pr": 4299,
-                    "prUrl": "https://github.com/palantir/tslint/pull/4299"
-                }
-            ],
-            "week": "2018-11-18"
-        },
-        {
-            "details": [
-                {
                     "maxCheckDuration": 90,
                     "maxCheckName": "cla/palantir",
                     "maxCheckUrl": "https://cla.palantir.com/",
@@ -289,93 +270,21 @@ export const tslintData = {
                 }
             ],
             "week": "2018-12-23"
+        },
+        {
+            "details": [
+                {
+                    "maxCheckDuration": 92,
+                    "maxCheckName": "ci/circleci: test2.7",
+                    "maxCheckUrl": "https://circleci.com/gh/palantir/tslint/10592?utm_campaign=vcs-integration-link&utm_medium=referral&utm_source=github-build-link",
+                    "pr": 4423,
+                    "prUrl": "https://github.com/palantir/tslint/pull/4423"
+                }
+            ],
+            "week": "2018-12-30"
         }
     ],
     "issues": [
-        {
-            "closed": 6,
-            "details": [
-                {
-                    "number": 4316,
-                    "resolutionTime": 1752135,
-                    "state": "",
-                    "title": "Is there a rule to force class methods to be arrow functions?",
-                    "url": "https://github.com/palantir/tslint/issues/4316"
-                },
-                {
-                    "number": 4315,
-                    "resolutionTime": 1161,
-                    "state": "",
-                    "title": "prefer-const false positive in a simple variable declaration",
-                    "url": "https://github.com/palantir/tslint/issues/4315"
-                },
-                {
-                    "number": 4314,
-                    "resolutionTime": 3970,
-                    "state": "",
-                    "title": "only-arrow-functions rule false-negative if function body contains 'this' keyword",
-                    "url": "https://github.com/palantir/tslint/issues/4314"
-                },
-                {
-                    "number": 4313,
-                    "resolutionTime": 1312345,
-                    "state": "",
-                    "title": "Min length variable name",
-                    "url": "https://github.com/palantir/tslint/issues/4313"
-                },
-                {
-                    "number": 4311,
-                    "resolutionTime": 12207,
-                    "state": "",
-                    "title": "Amazon ",
-                    "url": "https://github.com/palantir/tslint/issues/4311"
-                },
-                {
-                    "number": 4309,
-                    "resolutionTime": 1413219,
-                    "state": "",
-                    "title": "semicolon: Cannot read property 'initializer' of undefined",
-                    "url": "https://github.com/palantir/tslint/issues/4309"
-                },
-                {
-                    "number": 4308,
-                    "resolutionTime": 57379,
-                    "state": "",
-                    "title": "configuration.findConfiguration problem",
-                    "url": "https://github.com/palantir/tslint/issues/4308"
-                },
-                {
-                    "number": 4306,
-                    "resolutionTime": 3330044,
-                    "state": "",
-                    "title": "Documentation for no-shadowed-variable isn't very clear",
-                    "url": "https://github.com/palantir/tslint/issues/4306"
-                },
-                {
-                    "number": 4304,
-                    "resolutionTime": 1501289,
-                    "state": "",
-                    "title": "Allow customizing Rule.FAILURE_STRING by editing tslint.json",
-                    "url": "https://github.com/palantir/tslint/issues/4304"
-                },
-                {
-                    "number": 4302,
-                    "resolutionTime": 12961,
-                    "state": "",
-                    "title": "Prefer function type properties over interface methods",
-                    "url": "https://github.com/palantir/tslint/issues/4302"
-                },
-                {
-                    "number": 4301,
-                    "resolutionTime": 2122,
-                    "state": "",
-                    "title": "fix does not follow tslint.json config",
-                    "url": "https://github.com/palantir/tslint/issues/4301"
-                }
-            ],
-            "opened": 16,
-            "week": "2018-11-18"
-        },
         {
             "closed": 3,
             "details": [
@@ -412,7 +321,7 @@ export const tslintData = {
             "week": "2018-11-25"
         },
         {
-            "closed": 9,
+            "closed": 6,
             "details": [
                 {
                     "number": 4357,
@@ -489,7 +398,7 @@ export const tslintData = {
             "week": "2018-12-02"
         },
         {
-            "closed": 11,
+            "closed": 10,
             "details": [
                 {
                     "number": 4388,
@@ -658,34 +567,49 @@ export const tslintData = {
                     "state": "",
                     "title": "Fixer for the increment-decrement rule is changing code semantics",
                     "url": "https://github.com/palantir/tslint/issues/4414"
+                },
+                {
+                    "number": 4410,
+                    "resolutionTime": 435164,
+                    "state": "",
+                    "title": "Upgrading to 5.12.0 breaks Angular build process",
+                    "url": "https://github.com/palantir/tslint/issues/4410"
                 }
             ],
             "opened": 10,
             "week": "2018-12-23"
+        },
+        {
+            "closed": 1,
+            "details": [
+                {
+                    "number": 4425,
+                    "resolutionTime": 1947,
+                    "state": "",
+                    "title": "Running tslint with files specified don't respect tslint.config exclude options",
+                    "url": "https://github.com/palantir/tslint/issues/4425"
+                }
+            ],
+            "opened": 3,
+            "week": "2018-12-30"
         }
     ],
     "prs": [
         {
             "details": [
                 {
-                    "number": 4299,
-                    "resolutionTime": 2848494,
-                    "reviews": 1,
-                    "state": "MERGED",
-                    "title": "Added Gitpod to third-party tools",
-                    "url": "https://github.com/palantir/tslint/pull/4299"
-                }
-            ],
-            "merged": 0,
-            "opened": 2,
-            "rejected": 0,
-            "week": "2018-11-18"
-        },
-        {
-            "details": [
+                    "number": 4335,
+                    "resolutionTime": -1,
+                    "reviewTime": 12102,
+                    "reviews": 16,
+                    "state": "OPEN",
+                    "title": "Added new max-nesting-depth rule",
+                    "url": "https://github.com/palantir/tslint/pull/4335"
+                },
                 {
                     "number": 4332,
                     "resolutionTime": 128922,
+                    "reviewTime": 128915,
                     "reviews": 1,
                     "state": "MERGED",
                     "title": "Show offending value in 'no-magic-numbers' error message",
@@ -694,6 +618,7 @@ export const tslintData = {
                 {
                     "number": 4327,
                     "resolutionTime": 1125450,
+                    "reviewTime": 233363,
                     "reviews": 2,
                     "state": "MERGED",
                     "title": "Improve JUnit formatter",
@@ -702,6 +627,7 @@ export const tslintData = {
                 {
                     "number": 4323,
                     "resolutionTime": 1145932,
+                    "reviewTime": 309262,
                     "reviews": 1,
                     "state": "MERGED",
                     "title": "[no-void-expression] Allow void expressions in binary expressions",
@@ -710,6 +636,7 @@ export const tslintData = {
                 {
                     "number": 4322,
                     "resolutionTime": 380394,
+                    "reviewTime": 380389,
                     "reviews": 1,
                     "state": "MERGED",
                     "title": "Corrects typo (no-unused-expression)",
@@ -718,10 +645,20 @@ export const tslintData = {
                 {
                     "number": 4321,
                     "resolutionTime": 68499,
+                    "reviewTime": 3946,
                     "reviews": 1,
                     "state": "MERGED",
                     "title": "prefer-object-spread: this is new to ES2018, not ES2015",
                     "url": "https://github.com/palantir/tslint/pull/4321"
+                },
+                {
+                    "number": 4318,
+                    "resolutionTime": -1,
+                    "reviewTime": 38509,
+                    "reviews": 1,
+                    "state": "OPEN",
+                    "title": "added the noWorkspacePollutionRule",
+                    "url": "https://github.com/palantir/tslint/pull/4318"
                 }
             ],
             "merged": 3,
@@ -734,6 +671,7 @@ export const tslintData = {
                 {
                     "number": 4352,
                     "resolutionTime": 333672,
+                    "reviewTime": 1247,
                     "reviews": 3,
                     "state": "MERGED",
                     "title": "Fix callable-types should handle `new(): T` just like `(): T`",
@@ -742,6 +680,7 @@ export const tslintData = {
                 {
                     "number": 4351,
                     "resolutionTime": 16619,
+                    "reviewTime": 14267,
                     "reviews": 4,
                     "state": "MERGED",
                     "title": "Fix semicolon: Cannot read property 'initializer' of undefined",
@@ -750,6 +689,7 @@ export const tslintData = {
                 {
                     "number": 4350,
                     "resolutionTime": 89670,
+                    "reviewTime": 11523,
                     "reviews": 2,
                     "state": "MERGED",
                     "title": "Use default js-yaml schema",
@@ -758,6 +698,7 @@ export const tslintData = {
                 {
                     "number": 4347,
                     "resolutionTime": 38291,
+                    "reviewTime": 38285,
                     "reviews": 1,
                     "state": "MERGED",
                     "title": "Clarify no-shadowed-variable doc (#4306)",
@@ -766,14 +707,25 @@ export const tslintData = {
                 {
                     "number": 4346,
                     "resolutionTime": 9961,
+                    "reviewTime": 9866,
                     "reviews": 1,
                     "state": "MERGED",
                     "title": "Fix configuration tests when comparing rules",
                     "url": "https://github.com/palantir/tslint/pull/4346"
                 },
                 {
+                    "number": 4344,
+                    "resolutionTime": -1,
+                    "reviewTime": 21927,
+                    "reviews": 3,
+                    "state": "OPEN",
+                    "title": "Add quotemark type validation to allow early return (#4310)",
+                    "url": "https://github.com/palantir/tslint/pull/4344"
+                },
+                {
                     "number": 4336,
                     "resolutionTime": 3845,
+                    "reviewTime": 3832,
                     "reviews": 1,
                     "state": "MERGED",
                     "title": "Documentation updated to reflect earlier change to only-arrow-functions rule",
@@ -788,8 +740,27 @@ export const tslintData = {
         {
             "details": [
                 {
+                    "number": 4383,
+                    "resolutionTime": -1,
+                    "reviewTime": 10777,
+                    "reviews": 1,
+                    "state": "OPEN",
+                    "title": "Fix [ban]: wrong logic matching deeply nested methods",
+                    "url": "https://github.com/palantir/tslint/pull/4383"
+                },
+                {
+                    "number": 4380,
+                    "resolutionTime": -1,
+                    "reviewTime": 33221,
+                    "reviews": 1,
+                    "state": "OPEN",
+                    "title": "Feature: Introduce new rule: newline-before-throw",
+                    "url": "https://github.com/palantir/tslint/pull/4380"
+                },
+                {
                     "number": 4378,
                     "resolutionTime": 387,
+                    "reviewTime": 381,
                     "reviews": 1,
                     "state": "MERGED",
                     "title": "Fix semantic merge break from #4374 and #3733",
@@ -798,6 +769,7 @@ export const tslintData = {
                 {
                     "number": 4377,
                     "resolutionTime": 515161,
+                    "reviewTime": 258340,
                     "reviews": 1,
                     "state": "MERGED",
                     "title": "Bump docs ruby minor version to 2.3.7",
@@ -806,6 +778,7 @@ export const tslintData = {
                 {
                     "number": 4376,
                     "resolutionTime": 1575,
+                    "reviewTime": 1568,
                     "reviews": 1,
                     "state": "MERGED",
                     "title": "Nit: UpperCamelCase enum in noInvalidThisRule",
@@ -814,6 +787,7 @@ export const tslintData = {
                 {
                     "number": 4374,
                     "resolutionTime": 4303,
+                    "reviewTime": 4296,
                     "reviews": 1,
                     "state": "MERGED",
                     "title": "Fix [ordered-imports] `\"import-sources-order\": any` invalidate \"grouped-imports\"",
@@ -822,6 +796,7 @@ export const tslintData = {
                 {
                     "number": 4371,
                     "resolutionTime": 4117,
+                    "reviewTime": 457,
                     "reviews": 3,
                     "state": "MERGED",
                     "title": "Update 'json-stringify-pretty-compact' to 1.2.0 and remove unnecessary type declaration",
@@ -830,6 +805,7 @@ export const tslintData = {
                 {
                     "number": 4370,
                     "resolutionTime": 2116,
+                    "reviewTime": 128,
                     "reviews": 1,
                     "state": "MERGED",
                     "title": "Add exception for generators in \"return-undefined\" rule",
@@ -838,6 +814,7 @@ export const tslintData = {
                 {
                     "number": 4367,
                     "resolutionTime": 6219,
+                    "reviewTime": 1947,
                     "reviews": 2,
                     "state": "MERGED",
                     "title": "Use 2018 for copyright",
@@ -846,6 +823,7 @@ export const tslintData = {
                 {
                     "number": 4366,
                     "resolutionTime": 66998,
+                    "reviewTime": 11189,
                     "reviews": 1,
                     "state": "MERGED",
                     "title": "Use latest docs deps to avoid vulnerable libs",
@@ -854,6 +832,7 @@ export const tslintData = {
                 {
                     "number": 4362,
                     "resolutionTime": 113973,
+                    "reviewTime": 33762,
                     "reviews": 6,
                     "state": "MERGED",
                     "title": "Allow unknown in 'no-object-literal-type-assertion' rule.",
@@ -868,16 +847,36 @@ export const tslintData = {
         {
             "details": [
                 {
+                    "number": 4408,
+                    "resolutionTime": -1,
+                    "reviewTime": 367273,
+                    "reviews": 1,
+                    "state": "OPEN",
+                    "title": "Fix quotemark rule erroneous warning",
+                    "url": "https://github.com/palantir/tslint/pull/4408"
+                },
+                {
                     "number": 4404,
                     "resolutionTime": 250017,
+                    "reviewTime": 7895,
                     "reviews": 1,
                     "state": "MERGED",
                     "title": "Revert breaking change to tslint:recommended, update tslint:latest",
                     "url": "https://github.com/palantir/tslint/pull/4404"
                 },
                 {
+                    "number": 4397,
+                    "resolutionTime": -1,
+                    "reviewTime": 482737,
+                    "reviews": 3,
+                    "state": "OPEN",
+                    "title": "Mention file names in script parse failures (#4381)",
+                    "url": "https://github.com/palantir/tslint/pull/4397"
+                },
+                {
                     "number": 4395,
                     "resolutionTime": 3423,
+                    "reviewTime": 3339,
                     "reviews": 1,
                     "state": "MERGED",
                     "title": "[docs] Fix typo in no-default-import",
@@ -886,6 +885,7 @@ export const tslintData = {
                 {
                     "number": 4392,
                     "resolutionTime": 646,
+                    "reviewTime": 590,
                     "reviews": 1,
                     "state": "MERGED",
                     "title": "Fix failing test",
@@ -894,6 +894,7 @@ export const tslintData = {
                 {
                     "number": 4390,
                     "resolutionTime": 571230,
+                    "reviewTime": -1,
                     "reviews": 0,
                     "state": "CLOSED",
                     "title": "Mentioned file name in test script parse failures",
@@ -902,13 +903,14 @@ export const tslintData = {
                 {
                     "number": 4389,
                     "resolutionTime": 67190,
+                    "reviewTime": 1722,
                     "reviews": 2,
                     "state": "MERGED",
                     "title": "Prepare release 5.12.0",
                     "url": "https://github.com/palantir/tslint/pull/4389"
                 }
             ],
-            "merged": 6,
+            "merged": 5,
             "opened": 7,
             "rejected": 0,
             "week": "2018-12-16"
@@ -916,18 +918,54 @@ export const tslintData = {
         {
             "details": [
                 {
+                    "number": 4420,
+                    "resolutionTime": -1,
+                    "reviewTime": -1,
+                    "reviews": 0,
+                    "state": "OPEN",
+                    "title": "Add grouped imports by default in tslint:all",
+                    "url": "https://github.com/palantir/tslint/pull/4420"
+                },
+                {
                     "number": 4415,
                     "resolutionTime": 58850,
+                    "reviewTime": 58807,
                     "reviews": 1,
                     "state": "MERGED",
                     "title": "restrict increment-decrement fixer while fixing the postfix unary exp\u2026",
                     "url": "https://github.com/palantir/tslint/pull/4415"
+                },
+                {
+                    "number": 4413,
+                    "resolutionTime": -1,
+                    "reviewTime": 24698,
+                    "reviews": 4,
+                    "state": "OPEN",
+                    "title": "Mark RuleWalker and ProgramAwareRuleWalker as deprecated",
+                    "url": "https://github.com/palantir/tslint/pull/4413"
                 }
             ],
             "merged": 1,
             "opened": 3,
             "rejected": 1,
             "week": "2018-12-23"
+        },
+        {
+            "details": [
+                {
+                    "number": 4423,
+                    "resolutionTime": -1,
+                    "reviewTime": 4395,
+                    "reviews": 5,
+                    "state": "OPEN",
+                    "title": "quotemark rule does not apply to JSON files",
+                    "url": "https://github.com/palantir/tslint/pull/4423"
+                }
+            ],
+            "merged": 0,
+            "opened": 1,
+            "rejected": 0,
+            "week": "2018-12-30"
         }
     ]
 }
