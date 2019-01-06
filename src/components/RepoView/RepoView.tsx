@@ -2,16 +2,16 @@ import { Button, FormGroup, InputGroup, Switch } from "@blueprintjs/core"
 import * as queryString from 'query-string';
 import * as React from "react";
 import { RouteComponentProps } from 'react-router-dom';
-import { ICIDetails, IIssueDetails, IPRDetails, IRepoData } from '../models/RepoData';
-import { getGithubLoginUrl, toDays, toMinutes } from '../utils';
+import { ICIDetails, IIssueDetails, IPRDetails, IRepoData } from '../../models/RepoData';
+import { getGithubLoginUrl, toDays, toMinutes } from '../../utils';
+import { IssueActivityChart } from '../IssueActivityChart/IssueActivityChart';
+import { IssueStatusChart } from '../IssueStatusChart/IssueStatusChart';
+import { PRActivityChart } from '../PRActivityChart/PRActivityChart';
+import { PRStatusChart } from '../PRStatusChart/PRStatusChart';
+import { ResolutionChart } from '../ResolutionChart/ResolutionChart';
 import './Form.css'
 import { tslintData, tslintDataWeeks } from './initialData';
-import { IssueActivityChart } from './IssueActivityChart';
-import { IssueStatusChart } from './IssueStatusChart';
-import { PRActivityChart } from './PRActivityChart';
-import { PRStatusChart } from './PRStatusChart';
 import './RepoView.css'
-import { ResolutionChart } from './ResolutionChart';
 
 export interface IRepoViewProps extends RouteComponentProps<any> {
     // this is really gross... maybe it's time for redux

@@ -1,13 +1,13 @@
 import { Button, FormGroup, InputGroup, Switch } from "@blueprintjs/core"
 import * as React from "react";
-import { IPRDetails, IUserData } from '../models/RepoData';
-import { toDays } from '../utils';
-import './Form.css'
-import { tslintDataWeeks } from './initialData';
-import { PRActivityChart } from './PRActivityChart';
-import { PRStatusChart } from './PRStatusChart';
-import './RepoView.css'
-import { ResolutionChart } from './ResolutionChart';
+import { IPRDetails, IUserData } from '../../models/RepoData';
+import { toDays } from '../../utils';
+import { PRActivityChart } from '../PRActivityChart/PRActivityChart';
+import { PRStatusChart } from '../PRStatusChart/PRStatusChart';
+import '../RepoView/Form.css'
+import { tslintDataWeeks } from '../RepoView/initialData';
+import '../RepoView/RepoView.css'
+import { ResolutionChart } from '../ResolutionChart/ResolutionChart';
 
 interface IUserViewProps {
     token: string | null

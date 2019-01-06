@@ -1,21 +1,21 @@
-import { Alignment, AnchorButton, Button, Navbar, Popover, Position, Tooltip } from '@blueprintjs/core';
+import { Alignment, AnchorButton, Button, Navbar as BpNavbar, Popover, Position, Tooltip } from '@blueprintjs/core';
 import * as React from "react";
 import { RouteComponentProps } from 'react-router-dom';
-import { getGithubLoginUrl } from '../utils';
-import './EmNavbar.css'
+import { getGithubLoginUrl } from '../../utils';
+import './Navbar.css'
 
 interface INavbarProps extends RouteComponentProps<any> {
     token: string | null
 }
 
-export class EmNavbar extends React.Component<INavbarProps> {
+export class Navbar extends React.Component<INavbarProps> {
 
     public render() {
         return (
-            <Navbar className="bp3-dark">
-                <Navbar.Group align={Alignment.LEFT}>
-                    <Navbar.Heading>Eng Metrics</Navbar.Heading>
-                    <Navbar.Divider />
+            <BpNavbar className="bp3-dark">
+                <BpNavbar.Group align={Alignment.LEFT}>
+                    <BpNavbar.Heading>Eng Metrics</BpNavbar.Heading>
+                    <BpNavbar.Divider />
                     <Button
                         onClick={this.handleRepoSelection}
                         text="By Repository"
@@ -36,8 +36,8 @@ export class EmNavbar extends React.Component<INavbarProps> {
                             disabled={this.props.token === null}
                         />
                     </Tooltip>
-                </Navbar.Group>
-                {this.props.token !== null && <Navbar.Group align={Alignment.RIGHT}>
+                </BpNavbar.Group>
+                {this.props.token !== null && <BpNavbar.Group align={Alignment.RIGHT}>
                     <Popover className="mobile">
                         <Button icon="more" minimal={true} />
                         <AnchorButton
@@ -52,8 +52,8 @@ export class EmNavbar extends React.Component<INavbarProps> {
                         text="Review/revoke application"
                         minimal={true}
                     />
-                </Navbar.Group>}
-            </Navbar>
+                </BpNavbar.Group>}
+            </BpNavbar>
         );
     }
 

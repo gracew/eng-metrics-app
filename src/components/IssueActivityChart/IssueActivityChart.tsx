@@ -2,17 +2,16 @@ import { Button, ButtonGroup } from '@blueprintjs/core';
 import * as React from "react";
 
 import ReactEcharts from "echarts-for-react";
-import { IPRData } from '../models/RepoData';
-import { green, purple, red } from '../utils';
+import { IIssueData } from '../../models/RepoData';
 
-interface IPRActivityChartProps {
-    items: IPRData[]
+interface IIssueActivityChartProps {
+    items: IIssueData[]
     loading: boolean
 }
 
-export class PRActivityChart extends React.Component<IPRActivityChartProps> {
+export class IssueActivityChart extends React.Component<IIssueActivityChartProps> {
 
-    private chartDesc = "Opened, merged, and rejected (closed) PRs, grouped by week that the activity occurred."
+    private chartDesc = "Opened and closed PRs, grouped by week that the activity occurred."
 
     public render() {
         return (
@@ -31,32 +30,24 @@ export class PRActivityChart extends React.Component<IPRActivityChartProps> {
             legend: {},
             series: [
                 {
-                    areaStyle: { color: green },
+                    areaStyle: { color: '#28a745' },
                     data: this.props.items.map(({ week, opened }) => [week, opened]),
-                    itemStyle: { color: green },
-                    lineStyle: { color: green },
+                    itemStyle: { color: '#28a745' },
+                    lineStyle: { color: '#28a745' },
                     name: 'opened',
                     type: 'line',
                 },
                 {
-                    areaStyle: { color: purple },
-                    data: this.props.items.map(({ week, merged }) => [week, merged]),
-                    itemStyle: { color: purple },
-                    lineStyle: { color: purple },
-                    name: 'merged',
-                    type: 'line',
-                },
-                {
-                    areaStyle: { color: red },
-                    data: this.props.items.map(({ week, rejected }) => [week, rejected]),
-                    itemStyle: { color: red },
-                    lineStyle: { color: red },
-                    name: 'rejected',
+                    areaStyle: { color: '#cb2431' },
+                    data: this.props.items.map(({ week, closed }) => [week, closed]),
+                    itemStyle: { color: '#cb2431' },
+                    lineStyle: { color: '#cb2431' },
+                    name: 'closed',
                     type: 'line',
                 },
             ],
             title: {
-                text: 'PR Activity'
+                text: 'Issue Activity'
             },
             tooltip: {
                 trigger: 'axis'
@@ -68,7 +59,7 @@ export class PRActivityChart extends React.Component<IPRActivityChartProps> {
             ],
             yAxis: [
                 {
-                    name: 'Number of PRs',
+                    name: 'Number of Issues',
                     type: 'value'
                 }
             ],

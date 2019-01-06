@@ -2,24 +2,25 @@ import { Button, ButtonGroup } from '@blueprintjs/core';
 import * as React from "react";
 
 import ReactEcharts from "echarts-for-react";
-import { IIssueData } from '../models/RepoData';
-import { green, red } from '../utils';
+import { IPRData, PRState } from '../../models/RepoData';
+import { green, purple, red } from '../../utils';
 
-interface IIssueStatusChartProps {
-    items: IIssueData[]
+interface IPRStatusChartProps {
+    items: IPRData[]
     loading: boolean
 }
 
-export class IssueStatusChart extends React.Component<IIssueStatusChartProps> {
+export class PRStatusChart extends React.Component<IPRStatusChartProps> {
 
-    private chartDesc = "Closed and still open issues, grouped by created week."
+    private chartDesc = "Merged, rejected (closed) and still open PRs, grouped by created week."
 
     public render() {
         const data = this.props.items.filter(({ details }) => details !== null)
             .map(({ week, opened, details }) => {
                 const remainingOpen = opened - details!.length
-                const closed = details!.length
-                return { week, opened: remainingOpen, closed, details: null };
+                const rejected = details!.filter(d => d.state === PRState.CLOSED).length
+                const merged = details!.filter(d => d.state === PRState.MERGED).length
+                return { week, opened: remainingOpen, rejected, merged, details: null };
             })
         return (
             <div className="em-chart-group">
@@ -32,16 +33,25 @@ export class IssueStatusChart extends React.Component<IIssueStatusChartProps> {
         );
     }
 
-    private getOption = (data: IIssueData[]) => {
+    private getOption = (data: IPRData[]) => {
         return {
             legend: {},
             series: [
                 {
+                    areaStyle: { color: purple },
+                    data: data.map(({ week, merged }) => [week, merged]),
+                    itemStyle: { color: purple },
+                    lineStyle: { color: purple },
+                    name: 'merged',
+                    stack: 'stack',
+                    type: 'line',
+                },
+                {
                     areaStyle: { color: red },
-                    data: data.map(({ week, closed }) => [week, closed]),
+                    data: data.map(({ week, rejected }) => [week, rejected]),
                     itemStyle: { color: red },
                     lineStyle: { color: red },
-                    name: 'closed',
+                    name: 'rejected',
                     stack: 'stack',
                     type: 'line',
                 },
@@ -56,7 +66,7 @@ export class IssueStatusChart extends React.Component<IIssueStatusChartProps> {
                 },
             ],
             title: {
-                text: 'Issue Status'
+                text: 'PR Status'
             },
             tooltip: {
                 trigger: 'axis'
@@ -68,7 +78,7 @@ export class IssueStatusChart extends React.Component<IIssueStatusChartProps> {
             ],
             yAxis: [
                 {
-                    name: 'Number of Issues',
+                    name: 'Number of PRs',
                     type: 'value'
                 }
             ],

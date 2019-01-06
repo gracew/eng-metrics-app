@@ -3,7 +3,7 @@ import * as React from "react";
 
 import ReactEcharts from "echarts-for-react";
 import percentile from 'percentile';
-import { ICIData, ICIDetails, IIssueData, IIssueDetails, IPRData, IPRDetails } from '../models/RepoData';
+import { ICIData, ICIDetails, IIssueData, IIssueDetails, IPRData, IPRDetails } from '../../models/RepoData';
 import './ResolutionChart.css'
 
 type Data = ICIData | IIssueData | IPRData

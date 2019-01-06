@@ -2,9 +2,9 @@ import * as React from 'react';
 import { BrowserRouter as Router, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import './App.css';
 
-import { EmNavbar } from './components/EmNavbar';
-import { RepoView } from './components/RepoView';
-import { UserView } from './components/UserView';
+import { Navbar } from './components/Navbar/Navbar';
+import { RepoView } from './components/RepoView/RepoView';
+import { UserView } from './components/UserView/UserView';
 
 interface IAppState {
     token: string | null;
@@ -36,7 +36,7 @@ class App extends React.Component<{}, IAppState> {
     }
 
     private renderNavbar = (props: RouteComponentProps<any>) =>
-        <EmNavbar {...props} token={this.state.token} />
+        <Navbar {...props} token={this.state.token} />
     private renderRepoView = (props: RouteComponentProps<any>) =>
         <RepoView {...props} token={this.state.token} updateToken={this.updateToken} />
     private renderUserView = (props: RouteComponentProps<any>) =>
