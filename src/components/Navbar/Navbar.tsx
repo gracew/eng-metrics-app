@@ -27,7 +27,7 @@ export class Navbar extends React.Component<INavbarProps> {
                 .then(({ access_token }) => {
                     localStorage.setItem("accessToken", access_token)
                     this.props.updateToken(access_token)
-                    this.props.history.push("/")
+                    this.props.history.push(this.props.location.pathname)
                 });
             // TODO(gracew): handle failure case
         }
