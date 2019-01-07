@@ -36,9 +36,9 @@ class App extends React.Component<{}, IAppState> {
     }
 
     private renderNavbar = (props: RouteComponentProps<any>) =>
-        <Navbar {...props} token={this.state.token} />
+        <Navbar {...props} token={this.state.token} updateToken={this.updateToken} />
     private renderRepoView = (props: RouteComponentProps<any>) =>
-        <RepoView {...props} token={this.state.token} updateToken={this.updateToken} />
+        <RepoView {...props} token={this.state.token} />
     private renderUserView = (props: RouteComponentProps<any>) =>
         <UserView {...props} token={this.state.token} />
 
