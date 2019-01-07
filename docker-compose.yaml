@@ -1,0 +1,8 @@
+version: '2'
+services:
+  nginx:
+    image: shakyshane/nginx-cors-plus
+    ports:
+      - 9000:80
+    environment:
+      - TARGET=http://35.225.201.48:8080
