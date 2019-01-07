@@ -28,7 +28,7 @@ export class PRActivityChart extends React.Component<IPRActivityChartProps> {
 
     private getOption = () => {
         return {
-            legend: {},
+            legend: { top: "bottom" },
             series: [
                 {
                     areaStyle: { color: green },

@@ -1,7 +1,6 @@
-import { Alignment, AnchorButton, Button, Navbar as BpNavbar, Popover, Position, Tooltip } from '@blueprintjs/core';
+import { Alignment, AnchorButton, Button, Navbar as BpNavbar, Popover } from '@blueprintjs/core';
 import * as React from "react";
 import { RouteComponentProps } from 'react-router-dom';
-import { getGithubLoginUrl } from '../../utils';
 import './Navbar.css'
 
 interface INavbarProps extends RouteComponentProps<any> {
@@ -22,20 +21,12 @@ export class Navbar extends React.Component<INavbarProps> {
                         minimal={true}
                         active={this.props.location.pathname === "/"}
                     />
-                    <Tooltip
-                        content={<span><a href={getGithubLoginUrl()}> Login with Github</a> to access</span>}
-                        position={Position.RIGHT}
-                        disabled={this.props.token !== null}
-                        usePortal={false}
-                    >
-                        <AnchorButton
-                            onClick={this.handleUserSelection}
-                            text="By User"
-                            minimal={true}
-                            active={this.props.location.pathname === "/user"}
-                            disabled={this.props.token === null}
-                        />
-                    </Tooltip>
+                    <Button
+                        onClick={this.handleUserSelection}
+                        text="By User"
+                        minimal={true}
+                        active={this.props.location.pathname === "/user"}
+                    />
                 </BpNavbar.Group>
                 {this.props.token !== null && <BpNavbar.Group align={Alignment.RIGHT}>
                     <Popover className="mobile">
@@ -57,6 +48,6 @@ export class Navbar extends React.Component<INavbarProps> {
         );
     }
 
-    private handleRepoSelection = (_: React.MouseEvent<HTMLElement>) => this.props.history.push("/")
-    private handleUserSelection = (_: React.MouseEvent<HTMLElement>) => this.props.history.push("/user")
+    private handleRepoSelection = (_: React.MouseEvent<HTMLElement>) => this.props.history.push("/");
+    private handleUserSelection = (_: React.MouseEvent<HTMLElement>) => this.props.history.push("/user");
 }

@@ -34,7 +34,7 @@ export class IssueStatusChart extends React.Component<IIssueStatusChartProps> {
 
     private getOption = (data: IIssueData[]) => {
         return {
-            legend: {},
+            legend: { top: "bottom" },
             series: [
                 {
                     areaStyle: { color: red },

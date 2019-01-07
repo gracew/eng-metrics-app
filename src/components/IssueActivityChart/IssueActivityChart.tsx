@@ -27,7 +27,7 @@ export class IssueActivityChart extends React.Component<IIssueActivityChartProps
 
     private getOption = () => {
         return {
-            legend: {},
+            legend: { top: "bottom" },
             series: [
                 {
                     areaStyle: { color: '#28a745' },
