@@ -1,11 +1,10 @@
 import { Button, FormGroup, InputGroup, Switch } from "@blueprintjs/core"
 import * as React from "react";
-import { IPRDetails, IUserData } from '../../models/RepoData';
+import { IPRData, IPRDetails } from '../../models/RepoData';
 import { toDays } from '../../utils';
 import { PRActivityChart } from '../PRActivityChart/PRActivityChart';
 import { PRStatusChart } from '../PRStatusChart/PRStatusChart';
 import '../RepoView/Form.css'
-import { tslintDataWeeks } from '../RepoView/initialData';
 import '../RepoView/RepoView.css'
 import { ResolutionChart } from '../ResolutionChart/ResolutionChart';
 
@@ -16,7 +15,7 @@ interface IUserViewProps {
 interface IUserViewState {
     user: string
     weeks: string
-    data: IUserData
+    data: IPRData[]
     showBeta: boolean
     loading: boolean
 }
@@ -32,11 +31,11 @@ export class UserView extends React.Component<IUserViewProps, IUserViewState> {
     constructor(props: IUserViewProps) {
         super(props);
         this.state = {
-            data: { prs: [] },
+            data: [],
             loading: false,
             showBeta: false,
             user: "",
-            weeks: tslintDataWeeks,
+            weeks: "6",
         }
     }
 
@@ -76,10 +75,10 @@ export class UserView extends React.Component<IUserViewProps, IUserViewState> {
                     </FormGroup>
 
                 </form>
-                <PRStatusChart items={this.state.data.prs} loading={this.state.loading} />
-                {this.state.showBeta && <PRActivityChart items={this.state.data.prs} loading={this.state.loading} />}
+                <PRStatusChart items={this.state.data} loading={this.state.loading} />
+                {this.state.showBeta && <PRActivityChart items={this.state.data} loading={this.state.loading} />}
                 <ResolutionChart
-                    items={this.state.data.prs}
+                    items={this.state.data}
                     loading={this.state.loading}
                     chartTitle="PR Resolution Time"
                     chartDesc={this.prResolutionDesc}
@@ -91,7 +90,7 @@ export class UserView extends React.Component<IUserViewProps, IUserViewState> {
                     unitLabel="days"
                 />
                 <ResolutionChart
-                    items={this.state.data.prs}
+                    items={this.state.data}
                     loading={this.state.loading}
                     chartTitle="PR Reviews Received"
                     chartDesc={this.prReviewDesc}

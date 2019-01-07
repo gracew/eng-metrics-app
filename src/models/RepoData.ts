@@ -1,13 +1,3 @@
-export interface IRepoData {
-    ci: ICIData[]
-    prs: IPRData[]
-    issues: IIssueData[]
-}
-
-export interface IUserData {
-    prs: IPRData[]
-}
-
 export interface ICIData {
     week: string
     details: ICIDetails[] | null
