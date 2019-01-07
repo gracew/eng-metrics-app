@@ -5,11 +5,12 @@ export const red = '#cb2431';
 export const toMinutes = (seconds: number) => (seconds / 60).toFixed(2)
 export const toDays = (seconds: number) => (seconds / (60 * 60 * 24)).toFixed(2)
 
-export function getGithubLoginUrl() {
+export function getGithubLoginUrl(redirectUri?: string) {
     let state = localStorage.getItem("oauthState")
     if (state === null) {
         state = uuid.v4()
         localStorage.setItem("oauthState", state)
     }
-    return `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&scope=repo&state=${state}`
+    const url = `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&scope=repo&state=${state}`
+    return redirectUri ? `${url}&redirect_uri=${redirectUri}` : url;
 }

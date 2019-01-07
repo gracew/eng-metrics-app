@@ -35,7 +35,7 @@ export class PRStatusChart extends React.Component<IPRStatusChartProps> {
 
     private getOption = (data: IPRData[]) => {
         return {
-            legend: {},
+            legend: { top: "bottom" },
             series: [
                 {
                     areaStyle: { color: purple },

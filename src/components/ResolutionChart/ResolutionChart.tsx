@@ -134,7 +134,7 @@ export class ResolutionChart extends React.Component<IResolutionChartProps, IRes
 
     private getOption = (data: { [percentile: string]: IWeekAndDetails[] }) => {
         return {
-            legend: {},
+            legend: { top: "bottom" },
             series: Object.keys(data).map(p => ({
                 data: data[p].map(({ week, details }) => [week, this.getValue(details)]),
                 name: p,

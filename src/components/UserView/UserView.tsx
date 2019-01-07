@@ -1,7 +1,7 @@
 import { Button, FormGroup, InputGroup, Switch } from "@blueprintjs/core"
 import * as React from "react";
 import { IPRData, IPRDetails } from '../../models/RepoData';
-import { toDays } from '../../utils';
+import { getGithubLoginUrl, toDays } from '../../utils';
 import { PRActivityChart } from '../PRActivityChart/PRActivityChart';
 import { PRStatusChart } from '../PRStatusChart/PRStatusChart';
 import '../RepoView/Form.css'
@@ -51,6 +51,7 @@ export class UserView extends React.Component<IUserViewProps, IUserViewState> {
                             type="text"
                             value={this.state.user}
                             onChange={this.handleUserChange}
+                            disabled={this.props.token === null}
                         />
                     </FormGroup>
 
@@ -63,6 +64,7 @@ export class UserView extends React.Component<IUserViewProps, IUserViewState> {
                             type="text"
                             value={this.state.weeks}
                             onChange={this.handleWeeksChange}
+                            disabled={this.props.token === null}
                         />
                     </FormGroup>
 
@@ -73,6 +75,10 @@ export class UserView extends React.Component<IUserViewProps, IUserViewState> {
                     <FormGroup label="Beta" className="em-show-beta">
                         <Switch label="Show beta charts" onChange={this.handleBetaChange} />
                     </FormGroup>
+
+                    {this.props.token === null && <div className="em-login-text">
+                        Want to see data for a user? <a href={getGithubLoginUrl(window.location.href)}>Login with Github</a>
+                    </div>}
 
                 </form>
                 <PRStatusChart items={this.state.data} loading={this.state.loading} />
