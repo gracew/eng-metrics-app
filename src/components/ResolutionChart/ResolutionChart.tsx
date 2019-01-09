@@ -4,6 +4,7 @@ import * as React from "react";
 import ReactEcharts from "echarts-for-react";
 import percentile from 'percentile';
 import { ICIData, ICIDetails, IIssueData, IIssueDetails, IPRData, IPRDetails } from '../../models/RepoData';
+import { chartOptions } from '../../utils';
 import './ResolutionChart.css'
 
 type Data = ICIData | IIssueData | IPRData
@@ -134,7 +135,7 @@ export class ResolutionChart extends React.Component<IResolutionChartProps, IRes
 
     private getOption = (data: { [percentile: string]: IWeekAndDetails[] }) => {
         return {
-            legend: { top: "bottom" },
+            ...chartOptions,
             series: Object.keys(data).map(p => ({
                 data: data[p].map(({ week, details }) => [week, this.getValue(details)]),
                 name: p,
@@ -142,9 +143,6 @@ export class ResolutionChart extends React.Component<IResolutionChartProps, IRes
             })),
             title: {
                 text: this.props.chartTitle
-            },
-            tooltip: {
-                trigger: 'axis'
             },
             xAxis: [
                 {
