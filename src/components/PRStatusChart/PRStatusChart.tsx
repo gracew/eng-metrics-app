@@ -3,7 +3,7 @@ import * as React from "react";
 
 import ReactEcharts from "echarts-for-react";
 import { IPRData, PRState } from '../../models/RepoData';
-import { green, purple, red } from '../../utils';
+import { chartOptions, green, purple, red } from '../../utils';
 
 interface IPRStatusChartProps {
     items: IPRData[]
@@ -35,7 +35,7 @@ export class PRStatusChart extends React.Component<IPRStatusChartProps> {
 
     private getOption = (data: IPRData[]) => {
         return {
-            legend: { top: "bottom" },
+            ...chartOptions,
             series: [
                 {
                     areaStyle: { color: purple },
@@ -67,9 +67,6 @@ export class PRStatusChart extends React.Component<IPRStatusChartProps> {
             ],
             title: {
                 text: 'PR Status'
-            },
-            tooltip: {
-                trigger: 'axis'
             },
             xAxis: [
                 {

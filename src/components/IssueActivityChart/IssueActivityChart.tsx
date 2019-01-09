@@ -3,6 +3,7 @@ import * as React from "react";
 
 import ReactEcharts from "echarts-for-react";
 import { IIssueData } from '../../models/RepoData';
+import { chartOptions } from '../../utils';
 
 interface IIssueActivityChartProps {
     items: IIssueData[]
@@ -27,7 +28,7 @@ export class IssueActivityChart extends React.Component<IIssueActivityChartProps
 
     private getOption = () => {
         return {
-            legend: { top: "bottom" },
+            ...chartOptions,
             series: [
                 {
                     areaStyle: { color: '#28a745' },
@@ -48,9 +49,6 @@ export class IssueActivityChart extends React.Component<IIssueActivityChartProps
             ],
             title: {
                 text: 'Issue Activity'
-            },
-            tooltip: {
-                trigger: 'axis'
             },
             xAxis: [
                 {
