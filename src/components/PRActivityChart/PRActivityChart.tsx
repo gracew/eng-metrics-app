@@ -1,9 +1,9 @@
 import { Button, ButtonGroup } from '@blueprintjs/core';
 import * as React from "react";
 
-import ReactEcharts from "echarts-for-react";
 import { IPRData } from '../../models/RepoData';
-import { chartOptions, green, purple, red } from '../../utils';
+import { green, purple, red } from '../../utils';
+import { EmChart } from '../EmChart/EmChart';
 
 interface IPRActivityChartProps {
     items: IPRData[]
@@ -17,7 +17,7 @@ export class PRActivityChart extends React.Component<IPRActivityChartProps> {
     public render() {
         return (
             <div className="em-chart-group">
-                <ReactEcharts showLoading={this.props.loading} option={this.getOption()} />
+                <EmChart showLoading={this.props.loading} option={this.getOption()} />
                 <div className="em-chart-details">
                     <ButtonGroup className="em-dummy-button"><Button /></ButtonGroup>
                     <div className="em-chart-desc">{this.chartDesc}</div>
@@ -28,7 +28,6 @@ export class PRActivityChart extends React.Component<IPRActivityChartProps> {
 
     private getOption = () => {
         return {
-            ...chartOptions,
             series: [
                 {
                     areaStyle: { color: green },
