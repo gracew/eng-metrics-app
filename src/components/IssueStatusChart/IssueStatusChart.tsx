@@ -1,9 +1,9 @@
 import { Button, ButtonGroup } from '@blueprintjs/core';
 import * as React from "react";
 
-import ReactEcharts from "echarts-for-react";
 import { IIssueData } from '../../models/RepoData';
-import { chartOptions, green, red } from '../../utils';
+import { green, red } from '../../utils';
+import { EmChart } from '../EmChart/EmChart';
 
 interface IIssueStatusChartProps {
     items: IIssueData[]
@@ -23,7 +23,7 @@ export class IssueStatusChart extends React.Component<IIssueStatusChartProps> {
             })
         return (
             <div className="em-chart-group">
-                <ReactEcharts showLoading={this.props.loading} option={this.getOption(data)} />
+                <EmChart showLoading={this.props.loading} option={this.getOption(data)} />
                 <div className="em-chart-details">
                     <ButtonGroup className="em-dummy-button"><Button /></ButtonGroup>
                     <div className="em-chart-desc">{this.chartDesc}</div>
@@ -34,7 +34,6 @@ export class IssueStatusChart extends React.Component<IIssueStatusChartProps> {
 
     private getOption = (data: IIssueData[]) => {
         return {
-            ...chartOptions,
             series: [
                 {
                     areaStyle: { color: red },

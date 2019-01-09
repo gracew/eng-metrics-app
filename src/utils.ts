@@ -14,12 +14,3 @@ export function getGithubLoginUrl(redirectUri?: string) {
     const url = `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&scope=repo&state=${state}`
     return redirectUri ? `${url}&redirect_uri=${redirectUri}` : url;
 }
-
-export const chartOptions = {
-    dataZoom: [{
-        filterMode: "none",
-        type: "inside",
-    }],
-    legend: { top: "bottom" },
-    tooltip: { trigger: "axis" },
-}

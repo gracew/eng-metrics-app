@@ -1,10 +1,9 @@
 import { Button, ButtonGroup, HTMLTable } from '@blueprintjs/core';
 import * as React from "react";
 
-import ReactEcharts from "echarts-for-react";
 import percentile from 'percentile';
 import { ICIData, ICIDetails, IIssueData, IIssueDetails, IPRData, IPRDetails } from '../../models/RepoData';
-import { chartOptions } from '../../utils';
+import { EmChart } from '../EmChart/EmChart';
 import './ResolutionChart.css'
 
 type Data = ICIData | IIssueData | IPRData
@@ -59,7 +58,7 @@ export class ResolutionChart extends React.Component<IResolutionChartProps, IRes
         const data: { [p: string]: IWeekAndDetails[] } = { p50, p75, p90 }
         return (
             <div className="em-chart-group">
-                <ReactEcharts showLoading={this.props.loading} option={this.getOption(data)} />
+                <EmChart showLoading={this.props.loading} option={this.getOption(data)} />
                 <div className="em-chart-details">
                     <ButtonGroup className="em-display-selector">
                         <Button
@@ -135,7 +134,6 @@ export class ResolutionChart extends React.Component<IResolutionChartProps, IRes
 
     private getOption = (data: { [percentile: string]: IWeekAndDetails[] }) => {
         return {
-            ...chartOptions,
             series: Object.keys(data).map(p => ({
                 data: data[p].map(({ week, details }) => [week, this.getValue(details)]),
                 name: p,
