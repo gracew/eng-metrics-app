@@ -16,7 +16,10 @@ export function getGithubLoginUrl(redirectUri?: string) {
 }
 
 export const chartOptions = {
-    dataZoom: [{ type: "inside" }],
+    dataZoom: [{
+        filterMode: "none",
+        type: "inside",
+    }],
     legend: { top: "bottom" },
     tooltip: { trigger: "axis" },
 }
