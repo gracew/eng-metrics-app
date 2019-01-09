@@ -28,11 +28,18 @@ export class EmChart extends React.Component<ReactEchartsPropsTypes> {
             toolbox: {
                 feature: {
                     dataZoom: {
+                        icon: {
+                            // dummy image to effectively hide the icon
+                            // https://stackoverflow.com/questions/6018611/smallest-data-uri-image-possible-for-a-transparent-image
+                            back: 'image://data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP'
+                        },
                         title: {
-                            back: 'reset',
                             zoom: 'select',
                         },
                         yAxisIndex: false
+                    },
+                    restore: {
+                        title: 'reset'
                     }
                 },
                 right: 50
