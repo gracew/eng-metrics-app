@@ -42,7 +42,7 @@ export class EmChart extends React.Component<ReactEchartsPropsTypes> {
                         title: 'reset'
                     }
                 },
-                right: 50
+                right: '5%'
             },
             tooltip: { trigger: "axis" },
             ...this.props.option
